@@ -1,4 +1,5 @@
-# KASHAF: The Hadith Visual Search Engine
+# RIWAYA — Refined Isnād and Whole-text Matn Analysis for Yielding Authenticity
+built using KASHAF
 
 [![YOUTUBE_TALK_QU](https://github.com/OmarShafie/hadith/blob/master/QU.png)](https://youtu.be/WXzXmeWEz2o)
 
