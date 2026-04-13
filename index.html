@@ -2,240 +2,260 @@
 <html lang="ar">
 
 <head>
-  <title>Hadith Visual Search Engine</title>
+  <title>KASHAF — Hadith Visual Search Engine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta charset="UTF-8" />
+  <meta name="description" content="KASHAF: A visual search engine for Hadith Isnad tree analysis — محرك بحثي بصري لتتبع شجرة أسانيد الأحاديث النبوية" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" />
+
+  <!-- Bootstrap (kept for bootstrap-select compatibility) -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
+  <!-- jQuery + Bootstrap JS (kept for existing functionality) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css?family=Amiri|El+Messiri&display=swap" rel="stylesheet" />
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-  <script src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.js"></script>
+  <!-- CSV Parsing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.0.2/papaparse.min.js"></script>
+
+  <!-- Query Parser -->
   <script src="parser.js"></script>
 
-  <script src="https://github.com/niklasvh/html2canvas/releases/download/0.5.0-alpha1/html2canvas.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+  <!-- App -->
   <script src="hadithViz.js"></script>
-
   <link rel="stylesheet" type="text/css" href="main.css" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" />
 </head>
 
-<body id="screen" class="dark-mode">
-  <nav id="sidebar" class="active">
-    <ul class="list-unstyled components mb-5">
-      <li class="active fab icon">
-        <a onclick="openNav()">
-          <span class="fa fa-bars"></span>
+<body id="screen">
+
+  <!-- Mobile menu button -->
+  <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Open menu">
+    <span class="fa fa-bars"></span>
+  </button>
+
+  <!-- Sidebar Icon Rail -->
+  <nav id="sidebar">
+    <div class="sidebar-brand">K</div>
+    <ul>
+      <li>
+        <a onclick="openSearch()" title="Search">
+          <span class="fa fa-search nav-icon"></span>
+          <span>Search</span>
         </a>
       </li>
-      <li class="active">
-        <a onclick="openSearch()"><span class="fa fa-search"></span>Search بحث</a>
+      <li>
+        <a onclick="openSettings()" title="Settings">
+          <span class="fa fa-sliders-h nav-icon"></span>
+          <span>Settings</span>
+        </a>
       </li>
-      <li class="active">
-        <a onclick="openSettings()"><span class="fa fa-sliders-h"></span>Settings إعدادات</a>
-      </li>
-      <li class="active">
-        <a onclick="" href="https://github.com/OmarShafie/hadith"><span class="fa fa-info-circle"></span>About الدليل</a>
+      <li>
+        <a href="https://github.com/OmarShafie/hadith" title="About" target="_blank">
+          <span class="fa fa-info-circle nav-icon"></span>
+          <span>About</span>
+        </a>
       </li>
     </ul>
   </nav>
 
-  <div id="mySidenav" class="sidenav bg-dark text-center">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <ul style="align-items: center;" class="list-unstyled components mb-5">
-      <li class="active">
-        <a onclick="openSearch()"><span class="fa fa-search"></span>Search بحث</a>
-      </li>
-      <li class="active">
-        <a onclick="openSettings()"><span class="fa fa-sliders-h"></span>Settings إعدادات</a>
-      </li>
-      <li class="active">
-        <a onclick=""><span class="fa fa-info-circle"></span>About الدليل</a>
-      </li>
-    </ul>
-  </div>
-  <form id="mySidesearch" class="sidesearch bg-dark text-center">
-    <h3> Search Form <br> صفحة البحث <span class="fa fa-search"></span></h3>
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <div class="justify-content-center" style="margin: 10px">
-      <label> - Sources المصادر - </label>
-      <select class="selectpicker" multiple data-live-search="true">
-        <option id="0" value="1" selected> Bukhari البخاري</option>
-        <option id="1" value="2" selected> Muslim مسلم</option>
-        <option id="2" value="3" selected> Malik مالك</option>
-        <option id="3" value="4" selected> Nasa'i النسائي</option>
-        <option id="4" value="5" selected> Abu Daw'ud أبو داود</option>
-        <option id="5" value="6" selected> Termithi الترمذي</option>
-        <option id="6" value="7" selected> Daremi الدارمي</option>
-        <option id="7" value="8" selected> Ibn Majah ابن ماجه</option>
-        <option id="8" value="9" selected> Ahmad أحمد</option>
-      </select>
-    </div>
+  <!-- Search Panel -->
+  <form id="mySidesearch" class="sidesearch">
+    <div class="panel-inner">
+      <div class="panel-header">
+        <h3><span class="fa fa-search"></span> <span class="lang-texten">Search</span><span class="lang-textar" style="display:none">بحث</span></h3>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      </div>
 
-    <div class="justify-content-center autocomplete" style="margin: 10px">
-      <label for="pattern-query"> - Sanad Pattern قالب إسناد - </label>
-      <input type="search" class="form-control " id="pattern-query" dir="rtl" required placeholder="مثلا: @محمد بن مسلم"
-        autocomplete="on" />
-    </div>
-    <div class="justify-content-center" style="margin: 10px">
-      <label for="hadith-query"> - Hadith Query عبارة البحث - </label>
-      <input type="search" class="form-control " id="hadith-query" dir="rtl" value ="" required placeholder="مثلا: الأعمال بالنية"
-        autocomplete="on" />
-      <label id="pattern-error" style="color:orange"></label>
-    </div>
-    <div class="justify-content-center mx-3 form-inline">
-      <div>
-        <button type="button" id="submit" class="btn btn-primary">
-          Submit بحث
+      <!-- Sources -->
+      <div class="form-group">
+        <label><span class="lang-texten">Sources</span><span class="lang-textar" style="display:none">المصادر</span></label>
+        <select class="selectpicker" multiple data-live-search="true">
+          <option id="0" value="1" selected data-en="Bukhari" data-ar="البخاري">Bukhari</option>
+          <option id="1" value="2" selected data-en="Muslim" data-ar="مسلم">Muslim</option>
+          <option id="2" value="3" selected data-en="Malik" data-ar="مالك">Malik</option>
+          <option id="3" value="4" selected data-en="Nasa'i" data-ar="النسائي">Nasa'i</option>
+          <option id="4" value="5" selected data-en="Abu Daw'ud" data-ar="أبو داود">Abu Daw'ud</option>
+          <option id="5" value="6" selected data-en="Termithi" data-ar="الترمذي">Termithi</option>
+          <option id="6" value="7" selected data-en="Daremi" data-ar="الدارمي">Daremi</option>
+          <option id="7" value="8" selected data-en="Ibn Majah" data-ar="ابن ماجه">Ibn Majah</option>
+          <option id="8" value="9" selected data-en="Ahmad" data-ar="أحمد">Ahmad</option>
+        </select>
+      </div>
+
+      <!-- Sanad Pattern -->
+      <div class="form-group autocomplete">
+        <label for="pattern-query"><span class="lang-texten">Sanad Pattern</span><span class="lang-textar" style="display:none">قالب إسناد</span></label>
+        <input type="search" class="form-control" id="pattern-query" dir="rtl" required
+          placeholder="مثلا: @محمد بن مسلم" autocomplete="on" />
+      </div>
+
+      <!-- Hadith Query -->
+      <div class="form-group">
+        <label for="hadith-query"><span class="lang-texten">Hadith Query</span><span class="lang-textar" style="display:none">عبارة البحث</span></label>
+        <input type="search" class="form-control" id="hadith-query" dir="rtl" value="" required
+          placeholder="مثلا: الأعمال بالنية" autocomplete="on" />
+        <label id="pattern-error"></label>
+      </div>
+
+      <!-- Actions -->
+      <div class="panel-actions">
+        <button type="button" id="submit" class="btn btn-primary" style="flex:1">
+          <span class="fa fa-search"></span> <span class="lang-texten">Submit</span><span class="lang-textar" style="display:none">بحث</span>
         </button>
       </div>
-    </div>
-    <div class="justify-content-center">
-      <label id="btnMessage"></label>
-      <label id="data-error" style="color:orange"></label>
-    </div>
 
-    <div id="resultTable"></div>
-
-    <div class="justify-content-center mx-3 form-inline">
-      <div>
-        <button type="button" disabled id="draw" class="btn btn-primary">
-          Draw رسم
-        </button>
-      <div>
+      <div style="margin-top:8px">
+        <label id="btnMessage"></label>
+        <label id="data-error"></label>
       </div>
-        <button type="button" id="download_data" class="btn btn-primary-outline">
-        Download Data <br> تحميل البيانات<i class="fa fa-download"></i>
+
+      <!-- Results -->
+      <div id="resultTable"></div>
+
+      <!-- Draw + Download -->
+      <div class="panel-actions" style="margin-top:12px">
+        <button type="button" disabled id="draw" class="btn btn-primary" style="flex:1">
+          <span class="fa fa-project-diagram"></span> <span class="lang-texten">Draw</span><span class="lang-textar" style="display:none">رسم</span>
+        </button>
+        <button type="button" id="download_data" class="btn btn-outline btn-sm">
+          <i class="fa fa-download"></i> Data
         </button>
       </div>
     </div>
   </form>
-  <form id="mySidesettings" class="sidesearch bg-dark text-center">
-    <h3>Settings Form <br> صفحة الإعدادات<span class="fa fa-sliders-h"></span></h3>
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
+  <!-- Settings Panel -->
+  <form id="mySidesettings" class="sidesearch">
+    <div class="panel-inner">
+      <div class="panel-header">
+        <h3><span class="fa fa-sliders-h"></span> <span class="lang-texten">Settings</span><span class="lang-textar" style="display:none">إعدادات</span></h3>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      </div>
 
-    <div class="justify-content-center" style="margin: 10px">
-      <script>
- 
-        function handleFileSelect(evt) {
-          input_file = evt.target.files[0];
-          if (input_file){
-            new_upload = true;
-            inputType = "local";
-            document.getElementById("submit").click();
-            closeNav();
-            openSearch();
-          }
-        }
-       
-        $(document).ready(function(){
-          $("#csv-file").change(handleFileSelect);
-        });
-      </script>
-      <label> - Data البيانات - </label>
-      <input class="form-control" style="color: black" type="file" id="csv-file" name="files" accept=".csv"/>
-    </div>
-    <!--div hidden class="row justify-content-center form-inline">
-      <label for="numNarrators">- Max Narrators الحد الأقصى لعدد الرواة - </label>
-      <input type="number" class="form-control" id="numNarrators" placeholder="100" />
-    </div-->
-    <br />
-    <div class="justify-content-center" style="margin: 10px">
-      <label> - Links Coloring تغيير العرض - </label>
-      <select id="sankey_view" class="selectpicker"  data-width="fit">
-        <option selected> Group by Matn <br> تمييز المتون بالألوان </option>
-        <option> Group by Sanad <br> تمييز الأسانيد بالألوان</option>
-        <option> Multiple Matn Alignment <br> مقارنة المتون بالألوان </option>
-        <option> Connectivity Assessment <br> تمييز الاتصال بالألوان</option>
-      </select>
-    </div>
-    <br>
-    <div class="row px-2 justify-content-between">
-      Friendly colors (20 colors) <br> ألوان سهلة:
-      <label class="switch">
-        <input id="distinguishableColorsSwitch" type="checkbox" />
-        <span class="switchSlider round"></span>
-      </label>
-    </div>
-    <br>
-    <div class="row px-2 justify-content-between">
-      Clear Route <br> إعادة الترتيب:
-      <label class="switch">
-        <input id="clearRouteSwitch" type="checkbox" />
-        <span class="switchSlider round"></span>
-      </label>
-    </div>
-    <br>
-    <div class="row px-2 justify-content-between">
-      Day Light Theme <br> خلفية بيضاء:
-      <label class="switch">
-        <input id="DayThemeSwitch" type="checkbox" />
-        <span class="switchSlider round"></span>
-      </label>
-    </div>
-    <br>
-    <div class="row px-2 justify-content-between">
-      Log Scale <br> مقياس لوغاريتمي:
-      <label class="switch">
-        <input id="logScaleSwitch" type="checkbox" />
-        <span class="switchSlider round"></span>
-      </label>
-    </div>
-    <br>
-    <div>
-      <button type="button" id="rotate" class="btn btn-primary">
-        Rotate قلب <i class="fa fa-sync-alt"></i>
-      </button>
-    </div>
-    <br>
-    <div class="row justify-content-center form-inline">
-      <div class="col form-inline slidecontainer">
-        <p>
-          Nodes Spread تباعد الطرق<span id="demo"></span>
-          <input type="range" min="1" max="5" value="3" class="slider" id="myRange" />
-        </p>
+      <!-- CSV Upload -->
+      <div class="form-group">
+        <label><span class="lang-texten">Custom Data</span><span class="lang-textar" style="display:none">البيانات</span></label>
+        <input class="form-control" type="file" id="csv-file" name="files" accept=".csv" />
+      </div>
+
+      <!-- View Mode -->
+      <div class="form-group">
+        <label><span class="lang-texten">Links Coloring</span><span class="lang-textar" style="display:none">تغيير العرض</span></label>
+        <select id="sankey_view" class="form-control">
+          <option selected><span class="lang-texten">Group by Matn</span><span class="lang-textar" style="display:none">تمييز المتون بالألوان</span></option>
+          <option><span class="lang-texten">Group by Sanad</span><span class="lang-textar" style="display:none">تمييز الأسانيد بالألوان</span></option>
+          <option><span class="lang-texten">Multiple Matn Alignment</span><span class="lang-textar" style="display:none">مقارنة المتون بالألوان</span></option>
+          <option><span class="lang-texten">Connectivity Assessment</span><span class="lang-textar" style="display:none">تمييز الاتصال بالألوان</span></option>
+        </select>
+      </div>
+
+      <!-- Toggles -->
+      <div style="margin-top: 16px;">
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <span class="lang-texten">Friendly Colors (20)</span>
+            <span class="lang-textar" style="display:none">ألوان سهلة</span>
+          </div>
+          <label class="switch">
+            <input id="distinguishableColorsSwitch" type="checkbox" />
+            <span class="switchSlider round"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <span class="lang-texten">Clear Route</span>
+            <span class="lang-textar" style="display:none">إعادة الترتيب</span>
+          </div>
+          <label class="switch">
+            <input id="clearRouteSwitch" type="checkbox" />
+            <span class="switchSlider round"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <span class="lang-texten">Light Theme</span>
+            <span class="lang-textar" style="display:none">خلفية بيضاء</span>
+          </div>
+          <label class="switch">
+            <input id="DayThemeSwitch" type="checkbox" />
+            <span class="switchSlider round"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <div class="toggle-label">
+            <span class="lang-texten">Log Scale</span>
+            <span class="lang-textar" style="display:none">مقياس لوغاريتمي</span>
+          </div>
+          <label class="switch">
+            <input id="logScaleSwitch" type="checkbox" />
+            <span class="switchSlider round"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Node spread slider (hidden, kept for compatibility) -->
+      <div hidden>
+        <span id="demo"></span>
+        <input type="range" min="1" max="5" value="3" class="slider" id="myRange" />
+      </div>
+      <!-- Rotate button (hidden, kept for compatibility) -->
+      <div hidden>
+        <button type="button" id="rotate" class="btn btn-secondary">Rotate</button>
+      </div>
+
+      <!-- Save Chart -->
+      <div class="panel-actions" style="margin-top:20px">
+        <button type="button" id="saveTopPdf" class="btn btn-secondary" style="flex:1">
+          <i class="fa fa-image"></i> <span class="lang-texten">Save Chart</span><span class="lang-textar" style="display:none">حفظ التشجير</span>
+        </button>
       </div>
     </div>
-    <button type="button" id="saveTopPdf" class="btn btn-primary">
-        Save Chart <br> حفظ التشجير <i class="fa fa-image"></i>
-      </button>
   </form>
 
-  <div class="container-fluid">
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="top-nav-actions" style="position: absolute; top: 32px; right: 40px; display: flex; gap: 12px; z-index: 1000;">
+      <button id="lang-toggle" class="btn btn-secondary btn-sm" onclick="toggleLanguage()">
+        <i class="fa fa-language"></i> <span class="lang-texten">عربي</span><span class="lang-textar" style="display:none">English</span>
+      </button>
+      <button id="theme-toggle" class="btn btn-secondary btn-sm" onclick="toggleTheme()">
+        <i class="fa fa-adjust"></i> <span class="lang-texten">Theme</span><span class="lang-textar" style="display:none">المظهر</span>
+      </button>
+      <a href="https://x.com/ytrihs" target="_blank" class="btn btn-primary btn-sm btn-icon" style="border-radius: 50%; width: 32px; height: 32px;">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+
     <div id="header">
-      <br />
-      <br />
-      <h1 class="text-center">The Hadith Visual Search Engine</h1>
-      <h2 class="text-center small">
-        - محرك بحثي بصري لتتبع الأحاديث النبوية - <br>
-        Visual analysis of Hadith Isnad tree 
+      <h1>KASHAF — The Hadith Visual Search Engine</h1>
+      <h2>
+        محرك بحثي بصري لتتبع الأحاديث النبوية<br />
+        Visual analysis of Hadith Isnad tree
       </h2>
-      <h2 class="text-center" id="debugger"></h2>
+      <h2 id="debugger"></h2>
     </div>
-    <div class="row justify-content-center my-legend">
-      <div class="legend-title">
-        <!--Narrator Grade Legend:-->
-      </div>
+
+    <!-- Legend -->
+    <div class="my-legend">
       <div class="legend-scale">
         <ul class="legend-labels">
-          <li style="width: 65%;">Narrator Grades الجرح والتعديل</li>
-          <li style="width: 5%"></li>
-          <li style="width: 30%;">Connectivity الاتصال والانقطاع</li>
+          <li style="width: auto;"><span class="lang-texten">Narrator Grades</span><span class="lang-textar" style="display:none">الجرح والتعديل</span></li>
+          <li style="width: auto; margin-left: 24px;"><span class="lang-texten">Connectivity</span><span class="lang-textar" style="display:none">الاتصال</span></li>
         </ul>
         <ul class="legend-labels">
           <li><span style="background:#002700;"></span>صحابي</li>
@@ -243,63 +263,135 @@
           <li><span style="background:#008a00;"></span>ثقة</li>
           <li><span style="background:#7cb840;"></span>صدوق</li>
           <li><span style="background:#dde086;"></span>مقبول</li>
-          <!--li><span style="background:#d8c100;"></span>تغير \ اختلط</li-->
-          <!--li><span style="background:#f0a30a;"></span>مدلس</li-->
           <li><span style="background:#fbb268;"></span>لين</li>
           <li><span style="background:#ed6a57;"></span>ضعيف</li>
-          <li><span style="background:#de425b;"></span>منكر \ متروك</li>
+          <li><span style="background:#de425b;"></span>منكر / متروك</li>
           <li><span style="background:#a20025;"></span>كذاب</li>
-          <li><span style="background:silver;"></span>مجهول \ مستور</li>
-          <!--li><span style="background:#778899;"></span>أخرى</li-->
-          <li><span ></span></li>
-          <li><span style="background:#004c6d;"></span>متصل</li>
+          <li><span style="background:silver;"></span>مجهول / مستور</li>
+          <li style="margin-left: 16px;"><span style="background:#004c6d;"></span>متصل</li>
           <li><span style="background:#00aba9;"></span>منقطع (مكان)</li>
           <li><span style="background:silver;"></span>منقطع (زمان)</li>
           <li><span style="background:#d80073;"></span>منقطع</li>
         </ul>
       </div>
-      <span class="tooltiptext" id="gradeTooltip">Tooltip text</span>
+      <span id="gradeTooltip">Tooltip text</span>
     </div>
-    <div id="sankey_container" class="row justify-content-center">
-      <div id="sankey_basic" class="horizontal-sankey"></div>
+
+    <!-- Tree Diagram Container -->
+    <div id="tree-container">
+      <div class="empty-state" id="empty-state">
+        <span class="fas fa-project-diagram empty-icon"></span>
+        <span>Search for hadiths and click <strong>Draw</strong> to visualize the Isnad tree</span>
+        <span style="font-family: var(--font-arabic); font-size: 13px; color: var(--text-muted);">
+          ابحث عن الأحاديث ثم اضغط "رسم" لعرض شجرة الأسانيد
+        </span>
+      </div>
+      <div id="mermaid-output"></div>
     </div>
-    <br />
+
+    <!-- Mermaid Code Export Panel -->
+    <div class="code-export-panel" id="codeExportPanel" style="display:none;">
+      <div class="code-export-header" onclick="toggleCodePanel()">
+        <h4><i class="fa fa-code"></i> <span class="lang-texten">Mermaid Code</span><span class="lang-textar" style="display:none">كود الرسم البياني</span></h4>
+        <span class="chevron fas fa-chevron-down"></span>
+      </div>
+      <div class="code-export-body">
+        <textarea id="mermaidCodeArea" spellcheck="false" dir="ltr" placeholder="Mermaid diagram code will appear here..."></textarea>
+        <div class="code-export-actions">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="copyMermaidCode()">
+            <i class="fa fa-copy"></i> Copy
+          </button>
+          <button type="button" class="btn btn-primary btn-sm" onclick="reRenderMermaid()">
+            <i class="fa fa-sync-alt"></i> Re-render
+          </button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="openInMermaidLive()">
+            <i class="fa fa-external-link-alt"></i> Open in Mermaid Live
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- Copy Toast -->
+  <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
+
+  <footer>
+    <i class="fa fa-copyright"></i> 2019
+    <a href="https://www.linkedin.com/in/omarshafie/">Omar Shafie</a> in Doha, Qatar — All Rights Reserved
+  </footer>
+
+  <!-- MMA Card (preserved) -->
+  <div id="card" dir="rtl" style="visibility: hidden;">
+    <div id="rsz">
+      <div class="row pt-2" style="align-items:center;">
+        <label class="switch" style="margin:0 8px;">
+          <input id="dotificationSwitch" type="checkbox">
+          <span class="switchSlider round"></span>
+        </label>
+        <span style="font-size:13px;">تنقيط المتفق Dotification</span>
+      </div>
+      <div id="card_content"></div>
+    </div>
+  </div>
+
   <script>
-    var isVertical = false; //vertical
+    // ---- Panel navigation ----
+    var isVertical = false;
     var node_is_selected = false;
+
     function openSearch() {
-      document.getElementById("mySidesearch").style.width = "320px";
+      closeNav();
+      document.getElementById("mySidesearch").classList.add("open");
+      document.getElementById("mySidesearch").style.width = "var(--panel-w)";
     }
 
     function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("mySidesearch").classList.remove("open");
+      document.getElementById("mySidesettings").classList.remove("open");
       document.getElementById("mySidesearch").style.width = "0";
       document.getElementById("mySidesettings").style.width = "0";
     }
 
     function openNav() {
-      document.getElementById("mySidenav").style.width = "320px";
+      // Not used in new design, kept for compatibility
     }
 
     function openSettings() {
-      document.getElementById("mySidesettings").style.width = "330px";
+      closeNav();
+      document.getElementById("mySidesettings").classList.add("open");
+      document.getElementById("mySidesettings").style.width = "var(--panel-w)";
     }
 
-    var sankey_h = 0;
-    var sankey_w = 0;
-    var inputFeild = document.getElementById("mySidesearch");
-    /*
-    inputFeild.addEventListener("keyup", function (event) {
-      if (event.keyCode === 13) {
-        event.preventDefault();
-        document.getElementById("submit").click();
+    function toggleMobileSidebar() {
+      document.getElementById("sidebar").classList.toggle("mobile-open");
+    }
+
+    // ---- Mermaid init ----
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis',
+        rankSpacing: 60,
+        nodeSpacing: 40,
+        padding: 15
+      },
+      themeVariables: {
+        primaryColor: '#1c2333',
+        primaryTextColor: '#e8ecf4',
+        primaryBorderColor: '#2a3548',
+        lineColor: '#5c6478',
+        secondaryColor: '#161b26',
+        tertiaryColor: '#0f1219',
+        fontFamily: 'Inter, Amiri, sans-serif',
+        fontSize: '13px'
       }
     });
-    */
-    google.charts.load("current", {
-      packages: ["sankey"]
-    });
+
+    // ---- Slider (hidden, compatibility) ----
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
     output.innerHTML = slider.value;
@@ -310,280 +402,305 @@
     var selection_array = [];
     var clickDisabled = true;
 
+    // ---- Global variables for mermaid ----
+    var currentMermaidCode = '';
+    var mermaidRenderCounter = 0;
+
+    // ---- Draw Mermaid Tree (replaces drawChart) ----
     function drawChart(data) {
-      // Sets chart options.
-      //var screen_h = Math.min(screen.width,screen.height - 170);
-      var node_height = 25;
-      var nodeWidth = 12;
-      var layers_density = layers_count.map(set => set.length);
-      var dense_layer_count = layers_density[layers_density.indexOf(Math.max(...layers_density))];
-      var padding = parseInt(slider.value) * Math.min(node_height/2, 
-                                                      Math.sqrt(dense_layer_count)*node_height);
-      var expected_lable_length = isVertical? 50:150;
-      var verticalDistance   = isVertical? expected_lable_length*4 : padding; // between nodes
-      var horizontalDistance = isVertical? padding : (expected_lable_length); // between nodes
-      sankey_h = dense_layer_count * node_height + (dense_layer_count-1)* verticalDistance;
-      sankey_w = isVertical? Math.max(longest_sanad * verticalDistance,
-                                      Math.min(screen.width, screen.height) - 80 /*menue*/ - 2*nodeWidth) :
-                             Math.max(longest_sanad * horizontalDistance,
-                                      Math.max(screen.width, screen.height) - 80 /*menu*/ - 2*nodeWidth)
-      document
-        .querySelector("#screen")
-        .style.setProperty(
-          "width",
-          Math.max(//if the tree was small
-            80 + (isVertical ? sankey_h : sankey_w),
-            Math.max(screen.width, screen.height)
-          ) - nodeWidth + "px"
-        );
-      document
-        .querySelector("#sankey_basic")
-        .style.setProperty("margin-bottom", (isVertical ? 0 : -100) + "px");
-      document
-        .querySelector("#sankey_basic")
-        .style.setProperty("height", sankey_h + "px");
-      document
-        .querySelector("#sankey_container")
-        .style.setProperty(
-          "height",
-          (isVertical ? sankey_w : sankey_h) + "px"
-        );
-      options = {
-        width: sankey_w,
-        height: sankey_h,
-        tooltip: {
-          isHtml: true
-        },
-        sankey: {
-          allowHtml: true,
-          tooltip: {
-            isHtml: true
-          },
-          iterations: clearRoute()?0:1000,
-          link: {
-            color: {
-              fill: "lightslategray",
-              stroke: 'black', strokeWidth: 0.5,
-              //fillOpacity: 0.5
-            }
-          },
-          node: {
-            interactivity: true,
-            nodePadding: padding,
-            labelPadding: 5,
-            width: nodeWidth,
-            label: {
-              fontName: "UthmanTN",
-               bold: true,
-              italic: true
-            }
-          }
-        }
-      };
-
-      var chartDiv = document.getElementById("sankey_basic");
-      chart = new google.visualization.Sankey(chartDiv);
-
-      var colorNodes = {};
-      var textIndex = 0;
-      var rectIndex = 0;
-
-      var observer = new MutationObserver(function (mutations) {
-        var pathIndex = 0;
-        mutations.forEach(function (mutation) {
-          mutation.addedNodes.forEach(function (node) {
-            if (node.tagName === "text") {
-              node_color = gradeToColor(
-                getNarratorGrade(getNarratorFromName(node.innerHTML))
-              );
-              colorNodes[textIndex] = node_color;
-              textIndex++;
-              if (node.getAttribute("text-anchor") !== "start") {
-                node.setAttribute("text-anchor", "start");
-                node.setAttribute("x", parseInt(node.getAttribute("x")) + 20);
-              }
-              /*SVGRect = node.getBBox();
-              var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-                  rect.setAttribute("x", SVGRect.x);
-                  rect.setAttribute("y", SVGRect.y);
-                  rect.setAttribute("width", SVGRect.width);
-                  rect.setAttribute("height", SVGRect.height);
-                  rect.setAttribute("rx", 15);
-                  rect.setAttribute("fill", node_color);
-                  rect.setAttribute("class", "node_lable_box");
-                  node.parentElement.insertBefore(rect, node);
-                  */
-            }
-            if (node.tagName === "rect" && node.getAttribute("class") !== "node_lable_box") {
-              node.setAttribute("fill", colorNodes[rectIndex]);
-              rectIndex++;
-            }
-            if (node.tagName === "path") {
-              node.setAttribute("fill", colorLinks[pathIndex]);
-              if (node.getAttribute("fill-opacity") !== "0.8" && !node_is_selected) {
-                node.setAttribute("fill-opacity", g_opacity());
-              }
-              pathIndex++;
-            }
-          });
-        });
-      });
-
-      observer.observe(chartDiv, {
-        childList: true,
-        subtree: true
-      });
-
-      google.visualization.events.addListener(chart, "select", function () {
-        var sel = chart.getSelection();
-        if (sel.length) {
-          console.log(sel);
-          node_is_selected = true;
-          //window.open('http://www.bing.com');
-        } else {
-          node_is_selected = false;
-        }
-      });
-
-      google.visualization.events.addListener(chart, "onmouseover", function (e) {
-        if (e.name) {
-          var gradeTooltip = document.querySelector("#gradeTooltip");
-          gradeTooltip.style.setProperty("visibility", "visible");
-          const narrator = getNarratorFromName(e.name);;
-          gradeTooltip.innerHTML =
-            lookupNarrator(narrator)["name"] +
-            " : <span style = 'color :" +
-            gradeToColor(getNarratorGrade(narrator)) +
-            ";'>" +
-            getNarratorGrade(narrator) +
-            "</span>" + 
-            " ( " +
-            getNarratorPlaces(narrator) +
-              " , " +
-              getNarratorBirth_text(narrator) +
-              "~" +
-              getNarratorDeath_text(narrator) +
-              " )";
-        }
-        if (!e.name) {
-          clickDisabled = false;
-        }
-      });
-
-      google.visualization.events.addListener(chart, "onmouseout", function (
-        e
-      ) {
-        if (e.name && !node_is_selected) {
-          var gradeTooltip = document.querySelector("#gradeTooltip");
-          gradeTooltip.style.setProperty("visibility", "hidden");
-        }
-        if (!e.name) {
-          clickDisabled = true;
-        }
-      });
-      chart.draw(data, options);
+      // This function is now a no-op for Sankey.
+      // Mermaid rendering happens via drawMermaidTree called from prepareData.
       closeNav();
-      document.querySelectorAll("svg")[0].setAttribute("width", parseInt(sankey_w + expected_lable_length + 2*nodeWidth) + "px");
-    }2
+    }
 
-    var xOffset;
-    var yOffset;
-    const el = document.querySelector("#screen"); //tooltip
-    el.style.setProperty("--v", "none");
-    el.addEventListener(
-      "click",
-      e => {
-        xOffset =
-          (isVertical ?
-            (parseInt(
-                document
-                .querySelector("#screen")
-                .style.getPropertyValue("width")
-                .split("px")[0]
-              ) +
-              sankey_h) /
-            2 -
-            100 :
-            100) +
-          600 / 2;
-        yOffset =
-          (isVertical ?
-            sankey_w - 300 / 2 :
-            sankey_h +
-            300 / 2 +
-            document.querySelector("#header").offsetHeight +
-            30) + 50;
-        if (
-          el.style.getPropertyValue("--v") != "block" &&
-          !clickDisabled &&
-          document.getElementById("mySidesearch").style.width ==
-          document.getElementById("mySidesettings").style.width
-        ) {
-          el.style.setProperty(
-            "--x",
-            (isVertical ?
-              Math.min(
-                sankey_w -
-                (300 + document.querySelector("#header").offsetHeight),
-                Math.max(-150, -e.pageY + yOffset)
-              ) :
-              Math.min(sankey_w - 600, Math.max(0, e.pageX - xOffset))) +
-            "px"
-          );
-          el.style.setProperty(
-            "--y",
-            (isVertical ?
-              Math.max(
-                -sankey_h + 150,
-                Math.min(-400 - 50, e.pageX - xOffset)
-              ) :
-              Math.max(-sankey_h, Math.min(-300 + 50, e.pageY - yOffset))) +
-            "px"
-          );
-          el.style.setProperty("--v", "block");
-        }
-      },
-      true
-    );
+    function drawMermaidTree() {
+      // Generate mermaid code from result_graph
+      currentMermaidCode = generateMermaidCode(result_graph);
 
-    el.addEventListener("mousemove", e => {
-      var xPos = -80 +
-        Math.max(
-          e.pageX - parseInt(el.style.getPropertyValue("--x").split("px")[0]),
-          parseInt(el.style.getPropertyValue("--x").split("px")[0]) - e.pageX
-        );
-      var yPos =
-        150 +
-        e.pageY -
-        yOffset -
-        parseInt(el.style.getPropertyValue("--y").split("px")[0]);
+      // Show export panel
+      document.getElementById("codeExportPanel").style.display = "block";
+      document.getElementById("mermaidCodeArea").value = currentMermaidCode;
 
-      if (el.style.getPropertyValue("--v") == "block") {
-        if (xPos > 590 || xPos < 10 || yPos > 290 || yPos < 10) {
-          el.style.setProperty("--v", "none");
-          clickDisabled = true;
+      // Hide empty state
+      var emptyState = document.getElementById("empty-state");
+      if (emptyState) emptyState.style.display = "none";
+
+      renderMermaidFromCode(currentMermaidCode);
+      closeNav();
+    }
+
+    function generateMermaidCode(graph) {
+      var lines = [];
+      lines.push("graph TD");
+      lines.push("");
+
+      // Build node labels and collect edges
+      var nodeLabels = {};
+      var edgeLines = [];
+      var styleLines = [];
+      var clickLines = [];
+
+      // First pass: identify root nodes (nodes with no incoming edges = final collectors)
+      // A node is a root if no other node has it as an edge target
+      var hasIncoming = {};
+      for (var i = 0; i < graph.length; i++) {
+        for (var e = 0; e < graph[i]["edges"].length; e++) {
+          hasIncoming[graph[i]["edges"][e]["target"]] = true;
         }
       }
+      var rootNodes = {};
+      for (var i = 0; i < graph.length; i++) {
+        var nid = graph[i]["info"]["node"];
+        if (!hasIncoming[nid]) {
+          rootNodes[nid] = true;
+        }
+      }
+
+      // Track duplicate count per root node (one per outgoing edge)
+      var rootEdgeCount = {};
+
+      for (var i = 0; i < graph.length; i++) {
+        var nodeId = graph[i]["info"]["node"];
+        var narrator = lookupNarrator(nodeId);
+        var name = narrator['name']
+          .split(" ")
+          .slice(0, 4)
+          .join(" ");
+        var safeId = "N" + nodeId;
+        var label = nodeId + " " + name;
+
+        // Sanitize label for mermaid (remove problematic chars)
+        label = label.replace(/"/g, "'").replace(/[[\](){}]/g, "");
+        nodeLabels[nodeId] = safeId;
+
+        if (rootNodes[nodeId]) {
+          // Root node (collector): create a duplicate for each outgoing edge
+          for (var e = 0; e < graph[i]["edges"].length; e++) {
+            var edge = graph[i]["edges"][e];
+            var targetId = edge["target"];
+            var weight = edge["hadith_list"].length;
+            var safeTarget = "N" + targetId;
+
+            var dupIndex = rootEdgeCount[nodeId] || 0;
+            rootEdgeCount[nodeId] = dupIndex + 1;
+            var dupSafeId = "N" + nodeId + "_" + dupIndex;
+
+            // Define the duplicate root node
+            lines.push("    " + dupSafeId + "[\"" + label + "\"]");
+
+            // Style the duplicate root node
+            var gradeColor = gradeToColor(getNarratorGrade(nodeId));
+            if (gradeColor) {
+              styleLines.push("    style " + dupSafeId + " fill:" + gradeColor + ",stroke:" + gradeColor + ",color:#fff");
+            }
+
+            // Click callback for the duplicate
+            clickLines.push("    click " + dupSafeId + " onNodeClick");
+
+            // Edge from the duplicate root to the target
+            edgeLines.push("    " + dupSafeId + " --> |" + weight + "| " + safeTarget);
+          }
+        } else {
+          // Non-root node: define once as normal
+          lines.push("    " + safeId + "[\"" + label + "\"]");
+
+          // Style node based on narrator grade
+          var gradeColor = gradeToColor(getNarratorGrade(nodeId));
+          if (gradeColor) {
+            styleLines.push("    style " + safeId + " fill:" + gradeColor + ",stroke:" + gradeColor + ",color:#fff");
+          }
+
+          // Click callback
+          clickLines.push("    click " + safeId + " onNodeClick");
+
+          // Edges (normal, non-root sources)
+          for (var e = 0; e < graph[i]["edges"].length; e++) {
+            var edge = graph[i]["edges"][e];
+            var targetId = edge["target"];
+            var weight = edge["hadith_list"].length;
+            var safeTarget = "N" + targetId;
+            edgeLines.push("    " + safeId + " --> |" + weight + "| " + safeTarget);
+          }
+        }
+      }
+
+      lines.push("");
+      // Add edges
+      for (var k = 0; k < edgeLines.length; k++) {
+        lines.push(edgeLines[k]);
+      }
+
+      lines.push("");
+      // Add styles
+      for (var s = 0; s < styleLines.length; s++) {
+        lines.push(styleLines[s]);
+      }
+
+      // Add click callbacks
+      lines.push("");
+      for (var c = 0; c < clickLines.length; c++) {
+        lines.push(clickLines[c]);
+      }
+
+      return lines.join("\n");
+    }
+
+    // Global callback for mermaid node clicks
+    window.onNodeClick = function(nodeId) {
+      // Extract narrator ID from the node ID (remove "N" prefix and "_N" duplicate suffix)
+      var narratorId = nodeId.replace("N", "").replace(/_\d+$/, "");
+      var narrator = lookupNarrator(narratorId);
+      var gradeTooltipEl = document.querySelector("#gradeTooltip");
+      gradeTooltipEl.style.setProperty("visibility", "visible");
+      gradeTooltipEl.innerHTML =
+        narrator["name"] +
+        " : <span style='color:" +
+        gradeToColor(getNarratorGrade(narratorId)) +
+        ";'>" +
+        getNarratorGrade(narratorId) +
+        "</span>" +
+        " ( " +
+        getNarratorPlaces(narratorId) +
+        " , " +
+        getNarratorBirth_text(narratorId) +
+        "~" +
+        getNarratorDeath_text(narratorId) +
+        " )";
+    };
+
+    async function renderMermaidFromCode(code) {
+      var container = document.getElementById("mermaid-output");
+      container.innerHTML = '';
+      mermaidRenderCounter++;
+      var id = 'mermaid-diagram-' + mermaidRenderCounter;
+
+      try {
+        var result = await mermaid.render(id, code);
+        container.innerHTML = result.svg;
+      } catch (err) {
+        container.innerHTML = '<div style="color:var(--danger);padding:20px;font-family:var(--font-mono);font-size:13px;">Mermaid rendering error:<br>' + err.message + '</div>';
+        console.error("Mermaid render error:", err);
+      }
+    }
+
+    // ---- Code export functions ----
+    function toggleCodePanel() {
+      document.getElementById("codeExportPanel").classList.toggle("open");
+    }
+
+    function copyMermaidCode() {
+      var textarea = document.getElementById("mermaidCodeArea");
+      navigator.clipboard.writeText(textarea.value).then(function() {
+        var toast = document.getElementById("copyToast");
+        toast.classList.add("show");
+        setTimeout(function() { toast.classList.remove("show"); }, 2000);
+      });
+    }
+
+    function reRenderMermaid() {
+      var code = document.getElementById("mermaidCodeArea").value;
+      currentMermaidCode = code;
+      renderMermaidFromCode(code);
+    }
+
+    function openInMermaidLive() {
+      var code = document.getElementById("mermaidCodeArea").value;
+      var encoded = btoa(unescape(encodeURIComponent(JSON.stringify({
+        code: code,
+        mermaid: { theme: 'dark' }
+      }))));
+      window.open("https://mermaid.live/edit#base64:" + encoded, "_blank");
+    }
+
+    // ---- File upload handler ----
+    function handleFileSelect(evt) {
+      input_file = evt.target.files[0];
+      if (input_file) {
+        new_upload = true;
+        inputType = "local";
+        document.getElementById("submit").click();
+        closeNav();
+        openSearch();
+      }
+    }
+
+    $(document).ready(function () {
+      $("#csv-file").change(handleFileSelect);
     });
 
+    // ---- Theme toggle ----
+    function updateMermaidTheme() {
+      var isDark = !document.body.classList.contains("light-mode");
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? 'dark' : 'default',
+        securityLevel: 'loose',
+        flowchart: {
+          useMaxWidth: true,
+          htmlLabels: true,
+          curve: 'basis',
+          rankSpacing: 60,
+          nodeSpacing: 40,
+          padding: 15
+        },
+        themeVariables: isDark ? {
+          primaryColor: '#1c2333',
+          primaryTextColor: '#e8ecf4',
+          primaryBorderColor: '#2a3548',
+          lineColor: '#5c6478',
+          secondaryColor: '#161b26',
+          tertiaryColor: '#0f1219',
+          fontFamily: 'Inter, Amiri, sans-serif',
+          fontSize: '13px'
+        } : {
+          primaryColor: '#ffffff',
+          primaryTextColor: '#1a1e2c',
+          primaryBorderColor: '#ddd',
+          lineColor: '#888',
+          secondaryColor: '#f4f6fa',
+          tertiaryColor: '#eee',
+          fontFamily: 'Inter, Amiri, sans-serif',
+          fontSize: '13px'
+        }
+      });
+    } // Missing closing brace for updateMermaidTheme()
+
+    // ---- Language and Theme Toggles ----
+    function toggleLanguage() {
+      var isAr = !document.body.classList.contains("lang-ar");
+      
+      if (document.body.classList.contains("lang-ar")) {
+        document.body.classList.remove("lang-ar");
+        document.body.classList.add("lang-en");
+      } else {
+        document.body.classList.remove("lang-en");
+        document.body.classList.add("lang-ar");
+      }
+      
+      // Update options with data-en and data-ar
+      var options = document.querySelectorAll('option[data-en]');
+      options.forEach(function(opt) {
+        opt.textContent = isAr ? opt.getAttribute('data-ar') : opt.getAttribute('data-en');
+      });
+      // Refresh bootstrap select to update UI
+      $('.selectpicker').selectpicker('refresh');
+    }
+
+    function toggleTheme() {
+      var isDay = document.getElementById("DayThemeSwitch");
+      if(isDay) {
+          isDay.checked = !isDay.checked;
+          // Fire change event manually so existing logic picks it up (if any) or directly toggle class
+          var event = new Event('change');
+          isDay.dispatchEvent(event);
+      }
+      
+      document.body.classList.toggle("light-mode");
+      updateMermaidTheme();
+      if(typeof drawMermaidTree === 'function' && result_graph.length > 0) {
+          drawMermaidTree(); // re-render if tree is generated
+      }
+    }
   </script>
 </body>
-<footer style="height: 20px; text-align: center;" class="justify-content-center" >
-  <i class="fa fa-copyright"></i> 2019 <a href="https://www.linkedin.com/in/omarshafie/">Omar Shafie</a> in Doha, Qatar- All Rights
-  Reserved -
-</footer>
-<div id="card" dir="rtl" class="dark-mode" style="visibility: hidden;">
-
-  <div id="rsz">
-    <div class="row pt-2 align-items-center">
-      <label class="switch mx-2">
-        <input id="dotificationSwitch" type="checkbox">
-        <span class="switchSlider round"></span>
-      </label>
-      تنقيط المتفق Dotification :
-    </div>
-    <div id="card_content">
-    </div>
-  </div>
-</div>
 </html>

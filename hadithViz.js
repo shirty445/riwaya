@@ -354,15 +354,8 @@ function drawSankey(edges) {
     colorLinks.push(links[i][1]);
   }
 
-  data = new google.visualization.DataTable();
-  data.addColumn("string", "From");
-  data.addColumn("string", "To");
-  data.addColumn("number", "Weight");
-  data.addColumn({ type: "string", role: "tooltip", p: { html: true } });
-  data.addRows(ready_data);
-  google.charts.setOnLoadCallback(
-    drawChart(data)
-  );
+  // Render using Mermaid tree diagram
+  drawMermaidTree();
   if(colorMultipleMatnAlignment()){
     document.getElementById("card").style.setProperty("visibility", "visible");
     stringalign(matching_hadiths, color_assignments, -1.0*align_reward, 1.0*align_mispen, 1.0*align_gappen, 1.0*align_skwpen);
@@ -1014,15 +1007,11 @@ var longest_sanad     = 0;
 
 $(function () {
   $("#rotate").click(function () {
-    // flip
-    var sankey = document.querySelector("#sankey_basic");
-    if (isVertical) {
-      sankey.setAttribute("class", "horizontal-sankey");
-    } else {
-      sankey.setAttribute("class", "vertical-sankey");
+    // Rotation not applicable for Mermaid tree layout
+    // Re-render the tree instead
+    if (typeof currentMermaidCode !== 'undefined' && currentMermaidCode) {
+      renderMermaidFromCode(currentMermaidCode);
     }
-    isVertical = !isVertical;
-    google.charts.setOnLoadCallback(drawChart(data));
   });
 });
 
@@ -1093,50 +1082,28 @@ $(function () {
 
 $(function () {
   $("#saveTopPdf").click(function () {
-    var domURL;
-    var fileName;
-    var imageCanvas;
-    var imageURI;
-    var svgParent;
-
-    // add svg namespace to chart
-    svgParent = chart.getContainer().getElementsByTagName('svg')[0];
-    svgParent.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-
-    // create image URI
-    domURL = window.URL || window.webkitURL || window;
-    imageURI = domURL.createObjectURL(new Blob([svgParent.outerHTML], {type: 'image/svg+xml'}));
-    image = new Image();
-    image.onload = function() {
-      // replace chart with image
-      imageCanvas = document.createElement('canvas');
-      imageCanvas.setAttribute('width', parseFloat(svgParent.getAttribute('width')));
-      imageCanvas.setAttribute('height', parseFloat(svgParent.getAttribute('height')));
-      imageCanvas.getContext('2d').drawImage(image, 0, 0);
-      $('#sankey_basic').html('<img src="' + imageCanvas.toDataURL('image/png') + '" />');
-
-      // download dashboard image
-      fileName = 'dashboard.png';
-      html2canvas($('#sankey_container').get(0)).then(function (canvas) {
-        // determine if browser is IE
-        if (false || !!document.documentMode) {
-          window.navigator.msSaveBlob(canvas.msToBlob(), fileName);
-        } else {
-          downloadLink = document.createElement('a');
-          downloadLink.href = canvas.toDataURL('image/png');
-          downloadLink.download = fileName;
-        }
-
-        // re-draw chart
-        //chart.draw(data, options);
-      });
+    // Export the Mermaid SVG as an SVG file download
+    var svgEl = document.querySelector('#mermaid-output svg');
+    if (!svgEl) {
+      alert('No diagram to save. Please draw a tree first.');
+      return;
     }
-    //image.src = imageURI;
-        var newData = imageURI.replace(/^data:image\/png/, "data:application/octet-stream");
-        $("<a>", {href:newData, download:"Proof1.png",on:{click:function(){$(this).remove()}}})
-        .appendTo("body")[0].click()
-});
+
+    // Ensure SVG has xmlns
+    svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+
+    var svgData = new XMLSerializer().serializeToString(svgEl);
+    var blob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'hadith-isnad-tree.svg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
   });
+});
 
 $(function () {
   $("#draw").click(function () {
@@ -1869,10 +1836,12 @@ function connection_status(rawi_1, rawi_2){
 }
 
 function swtichThemeColor(){
-  document.body.classList.toggle("dark-mode");
-  document.querySelector("#card").classList.toggle("dark-mode");
+  document.body.classList.toggle("light-mode");
   g_dark_mode = !g_dark_mode;
-  closeNav()
+  if (typeof updateMermaidTheme === 'function') {
+    updateMermaidTheme();
+  }
+  closeNav();
 }
 
 function swtichDotification(){
