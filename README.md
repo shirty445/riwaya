@@ -1,4 +1,4 @@
-# RIWAYA — Refined Isnād and Whole-text Matn Analyzer for Yielding Authenticity
+# RIWAYA — The Refined Isnād and Whole-text Matn Analyzer for Yielding Authenticity
 built using KHASHAF
 
 ### الكشاف: محرك بحثي بصري لتتبع شجرة أسانيد الأحاديث النبوية
