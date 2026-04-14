@@ -2,7 +2,7 @@
 <html lang="ar">
 
 <head>
-  <title>shirty's Hadith Matn and Isnad Analysis Tool</title>
+  <title>RIWAYA by shirty</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta charset="UTF-8" />
   <meta name="description" content="shirty's Hadith Matn and Isnad Analysis Tool" />
@@ -10,7 +10,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,700;1,400;1,700&family=Inter:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" />
@@ -232,59 +232,40 @@
       <button id="lang-toggle" class="btn btn-secondary btn-sm" onclick="toggleLanguage()">
         <span class="lang-texten">عربي</span><span class="lang-textar" style="display:none">English</span>
       </button>
-      <button id="theme-toggle" class="btn btn-secondary btn-sm" onclick="toggleTheme()">
-        <i class="fa fa-adjust"></i> <span class="lang-texten">Theme</span><span class="lang-textar" style="display:none">المظهر</span>
-      </button>
-      <a href="https://x.com/ytrihs" target="_blank" class="btn btn-primary btn-sm btn-icon" style="border-radius: 50%; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background-color: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);">
+      <a href="https://x.com/ytrihs" target="_blank" class="btn btn-primary btn-sm btn-icon" style="border-radius: 0; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background-color: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </a>
     </div>
 
     <div id="header">
-      <h1>shirty's Hadith Matn and Isnad Analysis Tool</h1>
-      <h2>
-        <span class="lang-texten">Visual analysis of Hadith Isnad tree</span><span class="lang-textar" style="display:none">محرك بحثي بصري لتتبع الأحاديث النبوية</span>
-      </h2>
+      <h1 class="brand-title">RIWAYA by shirty</h1>
+      <h2 class="brand-subtitle"><em>based on KHASHAF</em></h2>
       <h2 id="debugger"></h2>
     </div>
 
-    <!-- Legend -->
-    <div class="my-legend">
-      <div class="legend-scale" style="display: flex; flex-direction: column; gap: 12px;">
-        <div>
-          <div class="legend-title" style="margin-bottom: 8px;">
-            <span class="lang-texten">Narrator Grades</span><span class="lang-textar" style="display:none">الجرح والتعديل</span>
-          </div>
-          <ul class="legend-labels">
-            <li><span style="background:#002700;" class="color-circle"></span><span class="lang-texten">Sahabi (Companion)</span><span class="lang-textar" style="display:none">صحابي</span></li>
-            <li><span style="background:#005800;" class="color-circle"></span><span class="lang-texten">Thiqah Thiqah (Highly Trustworthy)</span><span class="lang-textar" style="display:none">ثقة ثقة</span></li>
-            <li><span style="background:#008a00;" class="color-circle"></span><span class="lang-texten">Thiqah (Trustworthy)</span><span class="lang-textar" style="display:none">ثقة</span></li>
-            <li><span style="background:#7cb840;" class="color-circle"></span><span class="lang-texten">Saduq (Truthful)</span><span class="lang-textar" style="display:none">صدوق</span></li>
-            <li><span style="background:#dde086;" class="color-circle"></span><span class="lang-texten">Maqbul (Acceptable)</span><span class="lang-textar" style="display:none">مقبول</span></li>
-            <li><span style="background:#fbb268;" class="color-circle"></span><span class="lang-texten">Layyin (Slightly Weak)</span><span class="lang-textar" style="display:none">لين</span></li>
-            <li><span style="background:#ed6a57;" class="color-circle"></span><span class="lang-texten">Da'if (Weak)</span><span class="lang-textar" style="display:none">ضعيف</span></li>
-            <li><span style="background:#de425b;" class="color-circle"></span><span class="lang-texten">Munkar / Matruk (Denounced / Abandoned)</span><span class="lang-textar" style="display:none">منكر / متروك</span></li>
-            <li><span style="background:#a20025;" class="color-circle"></span><span class="lang-texten">Kadhdhab (Liar)</span><span class="lang-textar" style="display:none">كذاب</span></li>
-            <li><span style="background:silver;" class="color-circle"></span><span class="lang-texten">Majhul / Mastur (Unknown / Obscured)</span><span class="lang-textar" style="display:none">مجهول / مستور</span></li>
-          </ul>
-        </div>
-        <div>
-          <div class="legend-title" style="margin-bottom: 8px;">
-            <span class="lang-texten">Connectivity</span><span class="lang-textar" style="display:none">الاتصال</span>
-          </div>
-          <ul class="legend-labels">
-            <li><span style="background:#004c6d;" class="color-circle"></span><span class="lang-texten">Muttasil (Connected)</span><span class="lang-textar" style="display:none">متصل</span></li>
-            <li><span style="background:#00aba9;" class="color-circle"></span><span class="lang-texten">Munqati' (Disconnected Location)</span><span class="lang-textar" style="display:none">منقطع (مكان)</span></li>
-            <li><span style="background:silver;" class="color-circle"></span><span class="lang-texten">Munqati' (Disconnected Time)</span><span class="lang-textar" style="display:none">منقطع (زمان)</span></li>
-            <li><span style="background:#d80073;" class="color-circle"></span><span class="lang-texten">Munqati' (Disconnected)</span><span class="lang-textar" style="display:none">منقطع</span></li>
-          </ul>
-        </div>
-      </div>
-      <span id="gradeTooltip">Tooltip text</span>
-    </div>
+    <span id="gradeTooltip">Tooltip text</span>
 
     <!-- Tree Diagram Container -->
     <div id="tree-container">
+      <div id="floating-legend" class="floating-legend collapsed">
+        <button type="button" class="floating-legend-toggle" onclick="toggleFloatingLegend()">
+          <span class="fa fa-list"></span> Narrator Grades
+        </button>
+        <div class="floating-legend-body">
+          <ul class="legend-labels">
+            <li><span style="background:#002700;" class="color-circle"></span>Sahabi (Companion)</li>
+            <li><span style="background:#005800;" class="color-circle"></span>Thiqah Thiqah (Highly Trustworthy)</li>
+            <li><span style="background:#008a00;" class="color-circle"></span>Thiqah (Trustworthy)</li>
+            <li><span style="background:#7cb840;" class="color-circle"></span>Saduq (Truthful)</li>
+            <li><span style="background:#dde086;" class="color-circle"></span>Maqbul (Acceptable)</li>
+            <li><span style="background:#fbb268;" class="color-circle"></span>Layyin (Slightly Weak)</li>
+            <li><span style="background:#ed6a57;" class="color-circle"></span>Da'if (Weak)</li>
+            <li><span style="background:#de425b;" class="color-circle"></span>Munkar / Matruk</li>
+            <li><span style="background:#a20025;" class="color-circle"></span>Kadhdhab (Liar)</li>
+            <li><span style="background:silver;" class="color-circle"></span>Majhul / Mastur</li>
+          </ul>
+        </div>
+      </div>
       <div class="empty-state" id="empty-state">
         <span class="fas fa-project-diagram empty-icon"></span>
         <span class="lang-texten">Search for hadiths and click <strong>Draw</strong> to visualize the Isnad tree</span>
@@ -293,6 +274,19 @@
         </span>
       </div>
       <div id="mermaid-output"></div>
+    </div>
+
+    <!-- Matn Analysis Panel -->
+    <div id="matn-analysis-panel" class="analysis-panel">
+      <div class="analysis-panel-header">
+        <h3><i class="fa fa-align-left"></i> <span class="lang-texten">Matn Analysis</span><span class="lang-textar" style="display:none">تحليل المتون</span></h3>
+      </div>
+      <div id="matn-analysis-content" class="analysis-panel-body">
+        <p class="analysis-empty">
+          <span class="lang-texten">Draw the graph to inspect collector-level matn variants and highlighted peculiarities.</span>
+          <span class="lang-textar" style="display:none">ارسم المخطط لعرض فروق المتون بحسب الجامع مع إبراز الخصائص المميزة.</span>
+        </p>
+      </div>
     </div>
 
     <!-- Mermaid Code Export Panel -->
@@ -313,8 +307,8 @@
           <button type="button" class="btn btn-outline btn-sm" onclick="openInMermaidLive()">
             <i class="fa fa-external-link-alt"></i> <span class="lang-texten">Open in Mermaid Live</span><span class="lang-textar" style="display:none">فتح في Mermaid</span>
           </button>
-          <button type="button" class="btn btn-success btn-sm" onclick="exportToDrawio()" style="background-color: #f2931e; border-color: #f2931e; color: white;">
-            <i class="fa fa-file-export"></i> <span class="lang-texten">Export to draw.io</span><span class="lang-textar" style="display:none">تصدير إلى draw.io</span>
+          <button type="button" class="btn btn-success btn-sm" onclick="exportToDrawio()" style="background-color: #111; border-color: #fff; color: #fff;">
+            <i class="fa fa-file-export"></i> <span class="lang-texten">Open in draw.io</span><span class="lang-textar" style="display:none">تصدير إلى draw.io</span>
           </button>
         </div>
       </div>
@@ -323,11 +317,6 @@
 
   <!-- Copy Toast -->
   <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
-
-  <footer>
-    <i class="fa fa-copyright"></i> 2019
-    <a href="https://www.linkedin.com/in/omarshafie/">Omar Shafie</a> in Doha, Qatar — All Rights Reserved
-  </footer>
 
   <!-- MMA Card (preserved) -->
   <div id="card" dir="rtl" style="visibility: hidden;">
@@ -375,6 +364,13 @@
       document.getElementById("sidebar").classList.toggle("mobile-open");
     }
 
+    function toggleFloatingLegend() {
+      var legend = document.getElementById("floating-legend");
+      if (legend) {
+        legend.classList.toggle("collapsed");
+      }
+    }
+
     // ---- Mermaid init ----
     mermaid.initialize({
       startOnLoad: false,
@@ -389,12 +385,12 @@
         padding: 15
       },
       themeVariables: {
-        primaryColor: '#1c2333',
-        primaryTextColor: '#e8ecf4',
-        primaryBorderColor: '#2a3548',
-        lineColor: '#5c6478',
-        secondaryColor: '#161b26',
-        tertiaryColor: '#0f1219',
+        primaryColor: '#000000',
+        primaryTextColor: '#ffffff',
+        primaryBorderColor: '#ffffff',
+        lineColor: '#ffffff',
+        secondaryColor: '#000000',
+        tertiaryColor: '#000000',
         fontFamily: 'Inter, Amiri, sans-serif',
         fontSize: '13px'
       }
@@ -413,7 +409,9 @@
 
     // ---- Global variables for mermaid ----
     var currentMermaidCode = '';
+    var currentMatnAnalysis = null;
     var mermaidRenderCounter = 0;
+    var mermaidViewportState = null;
 
     // ---- Draw Mermaid Tree (replaces drawChart) ----
     function drawChart(data) {
@@ -423,8 +421,8 @@
     }
 
     function drawMermaidTree() {
-      // Generate mermaid code from result_graph
-      currentMermaidCode = generateMermaidCode(result_graph);
+      currentMatnAnalysis = buildMatnAnalysis(result_graph);
+      currentMermaidCode = generateMermaidCode(result_graph, currentMatnAnalysis);
 
       // Show export panel
       document.getElementById("codeExportPanel").style.display = "block";
@@ -434,99 +432,267 @@
       var emptyState = document.getElementById("empty-state");
       if (emptyState) emptyState.style.display = "none";
 
+      renderMatnAnalysisPanel(currentMatnAnalysis);
       renderMermaidFromCode(currentMermaidCode);
       closeNav();
     }
 
-    function generateMermaidCode(graph) {
+    function sanitizeMermaidLabel(text) {
+      return String(text || "")
+        .replace(/"/g, "'")
+        .replace(/[{}[\]()]/g, "")
+        .replace(/\n+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function truncateWords(text, maxWords) {
+      var words = String(text || "").trim().split(/\s+/).filter(Boolean);
+      if (words.length <= maxWords) return words.join(" ");
+      return words.slice(0, maxWords).join(" ") + " ...";
+    }
+
+    function escapeHtml(text) {
+      return String(text || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function tokenizeMatn(text) {
+      return simplifyArabic(String(text || ""))
+        .replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .split(" ")
+        .filter(function (w) { return w.length > 1; });
+    }
+
+    function buildMatnAnalysis(graph) {
+      if (!graph || graph.length === 0 || !matching_hadiths || matching_hadiths.length === 0) {
+        return { collectors: [], signatureColors: {}, hadithStrandMap: {} };
+      }
+
+      var collectorSet = {};
+      for (var i = 0; i < graph.length; i++) {
+        if (!graph[i]["edges"] || graph[i]["edges"].length === 0) {
+          collectorSet[String(graph[i]["info"]["node"])] = true;
+        }
+      }
+
+      var collectorHadithMap = {};
+      for (var h = 0; h < matching_hadiths.length; h++) {
+        var hadithIdx = matching_hadiths[h]["index"];
+        var chains = matching_hadiths[h]["asaneed"] || [];
+        for (var c = 0; c < chains.length; c++) {
+          var chain = chains[c] || [];
+          var collectorId = chain.length ? String(chain[chain.length - 1]) : "";
+          if (!collectorId || !collectorSet[collectorId]) continue;
+          if (!collectorHadithMap[collectorId]) collectorHadithMap[collectorId] = {};
+          collectorHadithMap[collectorId][hadithIdx] = true;
+        }
+      }
+
+      var allVariants = [];
+      var collectors = [];
+      for (var collectorId in collectorHadithMap) {
+        var hadithIds = Object.keys(collectorHadithMap[collectorId]);
+        var byNormalized = {};
+
+        for (var j = 0; j < hadithIds.length; j++) {
+          var idx = parseInt(hadithIds[j], 10);
+          var originalMatn = String(getHadithMatn(HadithArr, idx) || "").replace(/\s+/g, " ").trim();
+          if (!originalMatn) continue;
+
+          var normalized = simplifyArabic(originalMatn)
+            .replace(/[^\u0600-\u06FFa-zA-Z0-9\s]/g, " ")
+            .replace(/\s+/g, " ")
+            .trim();
+          if (!normalized) continue;
+
+          if (!byNormalized[normalized]) {
+            byNormalized[normalized] = {
+              normalized: normalized,
+              text: originalMatn,
+              hadithIds: []
+            };
+          }
+          byNormalized[normalized].hadithIds.push(idx);
+        }
+
+        var collectorVariants = Object.keys(byNormalized).map(function (key) {
+          return byNormalized[key];
+        });
+        if (!collectorVariants.length) continue;
+
+        for (var v = 0; v < collectorVariants.length; v++) {
+          allVariants.push(collectorVariants[v]);
+        }
+
+        collectors.push({
+          id: collectorId,
+          name: lookupNarrator(collectorId).name,
+          variants: collectorVariants
+        });
+      }
+
+      var tokenPresence = {};
+      for (var av = 0; av < allVariants.length; av++) {
+        var seenTokens = {};
+        var tokens = tokenizeMatn(allVariants[av].normalized);
+        for (var t = 0; t < tokens.length; t++) {
+          var token = tokens[t];
+          if (seenTokens[token]) continue;
+          seenTokens[token] = true;
+          tokenPresence[token] = (tokenPresence[token] || 0) + 1;
+        }
+      }
+
+      var minPeculiarityFrequency = Math.max(1, Math.floor(Math.max(allVariants.length, 1) * 0.25));
+      var matnPalette = ["#6ee7ff", "#ffbf69", "#8cff98", "#ff8fab", "#c8a2ff", "#ffe66d", "#98f5e1", "#ffadad", "#bde0fe", "#d9ed92"];
+      var signatureColors = {};
+      var hadithStrandMap = {};
+      var colorCursor = 0;
+      var strandCounter = 1;
+
+      for (var ci = 0; ci < collectors.length; ci++) {
+        for (var vi = 0; vi < collectors[ci].variants.length; vi++) {
+          var variant = collectors[ci].variants[vi];
+          var variantTokens = tokenizeMatn(variant.normalized);
+          var uniqueTokens = [];
+          var uniqMap = {};
+
+          for (var p = 0; p < variantTokens.length; p++) {
+            var token = variantTokens[p];
+            if (uniqMap[token]) continue;
+            uniqMap[token] = true;
+            if ((tokenPresence[token] || 0) <= minPeculiarityFrequency) {
+              uniqueTokens.push(token);
+            }
+          }
+
+          var peculiarities = uniqueTokens.slice(0, 8);
+          var signature = peculiarities.length ? peculiarities.join("|") : "__common__";
+          if (!signatureColors[signature]) {
+            signatureColors[signature] = matnPalette[colorCursor % matnPalette.length];
+            colorCursor++;
+          }
+
+          variant.peculiarities = peculiarities;
+          variant.signature = signature;
+          variant.color = signatureColors[signature];
+          variant.shortLabel = truncateWords(variant.text, 10);
+          variant.hadithCount = variant.hadithIds.length;
+          variant.strandLabel = "S" + strandCounter;
+          strandCounter++;
+
+          for (var hi = 0; hi < variant.hadithIds.length; hi++) {
+            hadithStrandMap[collectors[ci].id + ":" + variant.hadithIds[hi]] = variant.strandLabel;
+          }
+        }
+      }
+
+      return { collectors: collectors, signatureColors: signatureColors, hadithStrandMap: hadithStrandMap };
+    }
+
+    function getEdgeStrandGroups(collectorId, hadithList, matnAnalysis) {
+      if (!hadithList || !hadithList.length) {
+        return [{ label: "", count: 0 }];
+      }
+
+      var groups = {};
+      for (var i = 0; i < hadithList.length; i++) {
+        var label = "";
+        if (matnAnalysis && matnAnalysis.hadithStrandMap) {
+          var key = String(collectorId) + ":" + hadithList[i];
+          label = matnAnalysis.hadithStrandMap[key] || "";
+        }
+        var bucket = label || "_";
+        groups[bucket] = (groups[bucket] || 0) + 1;
+      }
+
+      var result = [];
+      for (var groupLabel in groups) {
+        result.push({
+          label: groupLabel === "_" ? "" : groupLabel,
+          count: groups[groupLabel]
+        });
+      }
+
+      result.sort(function (a, b) {
+        if (a.label === b.label) return b.count - a.count;
+        if (!a.label) return 1;
+        if (!b.label) return -1;
+        return a.label.localeCompare(b.label);
+      });
+      return result;
+    }
+
+    function generateMermaidCode(graph, matnAnalysis) {
       var lines = [];
       lines.push("graph TD");
       lines.push("");
 
-      // Build node labels and collect edges
-      var nodeLabels = {};
       var edgeLines = [];
       var styleLines = [];
       var clickLines = [];
+      var collectorSet = {};
+      var collectorCopies = {};
 
-      // First pass: identify root nodes (nodes with no incoming edges = final collectors)
-      // A node is a root if no other node has it as an edge target
-      var hasIncoming = {};
       for (var i = 0; i < graph.length; i++) {
-        for (var e = 0; e < graph[i]["edges"].length; e++) {
-          hasIncoming[graph[i]["edges"][e]["target"]] = true;
+        if (!graph[i]["edges"] || graph[i]["edges"].length === 0) {
+          collectorSet[String(graph[i]["info"]["node"])] = true;
         }
       }
-      var rootNodes = {};
-      for (var i = 0; i < graph.length; i++) {
-        var nid = graph[i]["info"]["node"];
-        if (!hasIncoming[nid]) {
-          rootNodes[nid] = true;
-        }
-      }
-
-      // Track duplicate count per root node (one per outgoing edge)
-      var rootEdgeCount = {};
 
       for (var i = 0; i < graph.length; i++) {
         var nodeId = graph[i]["info"]["node"];
+        if (collectorSet[String(nodeId)]) continue;
+
         var narrator = lookupNarrator(nodeId);
-        var name = narrator['name']
-          .split(" ")
-          .slice(0, 4)
-          .join(" ");
+        var name = narrator['name'].split(" ").slice(0, 4).join(" ");
         var safeId = "N" + nodeId;
-        var label = nodeId + " " + name;
+        var label = sanitizeMermaidLabel(nodeId + " " + name);
 
-        // Sanitize label for mermaid (remove problematic chars)
-        label = label.replace(/"/g, "'").replace(/[[\](){}]/g, "");
-        nodeLabels[nodeId] = safeId;
+        lines.push("    " + safeId + "[\"" + label + "\"]");
+        clickLines.push("    click " + safeId + " onNodeClick");
 
-        if (rootNodes[nodeId]) {
-          // Root node (collector): create a duplicate for each outgoing edge
-          for (var e = 0; e < graph[i]["edges"].length; e++) {
-            var edge = graph[i]["edges"][e];
-            var targetId = edge["target"];
-            var weight = edge["hadith_list"].length;
-            var safeTarget = "N" + targetId;
+        var gradeColor = gradeToColor(getNarratorGrade(nodeId));
+        if (gradeColor) {
+          styleLines.push("    style " + safeId + " fill:" + gradeColor + ",stroke:#ffffff,color:#fff");
+        }
 
-            var dupIndex = rootEdgeCount[nodeId] || 0;
-            rootEdgeCount[nodeId] = dupIndex + 1;
-            var dupSafeId = "N" + nodeId + "_" + dupIndex;
+        for (var e = 0; e < graph[i]["edges"].length; e++) {
+          var edge = graph[i]["edges"][e];
+          var targetId = String(edge["target"]);
+          var weight = edge["hadith_list"].length;
 
-            // Define the duplicate root node
-            lines.push("    " + dupSafeId + "[\"" + label + "\"]");
+          if (collectorSet[targetId]) {
+            var copyIndex = collectorCopies[targetId] || 0;
+            collectorCopies[targetId] = copyIndex + 1;
 
-            // Style the duplicate root node
-            var gradeColor = gradeToColor(getNarratorGrade(nodeId));
-            if (gradeColor) {
-              styleLines.push("    style " + dupSafeId + " fill:" + gradeColor + ",stroke:" + gradeColor + ",color:#fff");
+            var collectorName = lookupNarrator(targetId).name.split(" ").slice(0, 4).join(" ");
+            var collectorColor = gradeToColor(getNarratorGrade(targetId));
+            var strandGroups = getEdgeStrandGroups(targetId, edge["hadith_list"], matnAnalysis);
+
+            for (var sg = 0; sg < strandGroups.length; sg++) {
+              var strandLabel = strandGroups[sg].label;
+              var strandCount = strandGroups[sg].count;
+              var collectorNodeId = "N" + targetId + "_COL" + copyIndex + "_" + sg;
+              var collectorNodeLabel = sanitizeMermaidLabel(targetId + " " + collectorName + (strandLabel ? " [" + strandLabel + "]" : ""));
+
+              lines.push("    " + collectorNodeId + "[\"" + collectorNodeLabel + "\"]");
+              clickLines.push("    click " + collectorNodeId + " onNodeClick");
+              if (collectorColor) {
+                styleLines.push("    style " + collectorNodeId + " fill:" + collectorColor + ",stroke:#ffffff,color:#fff");
+              }
+
+              var collectorEdgeLabel = strandLabel ? (strandLabel + " / " + strandCount) : String(strandCount);
+              edgeLines.push("    " + safeId + " --> |" + collectorEdgeLabel + "| " + collectorNodeId);
             }
-
-            // Click callback for the duplicate
-            clickLines.push("    click " + dupSafeId + " onNodeClick");
-
-            // Edge from the duplicate root to the target
-            edgeLines.push("    " + dupSafeId + " --> |" + weight + "| " + safeTarget);
-          }
-        } else {
-          // Non-root node: define once as normal
-          lines.push("    " + safeId + "[\"" + label + "\"]");
-
-          // Style node based on narrator grade
-          var gradeColor = gradeToColor(getNarratorGrade(nodeId));
-          if (gradeColor) {
-            styleLines.push("    style " + safeId + " fill:" + gradeColor + ",stroke:" + gradeColor + ",color:#fff");
-          }
-
-          // Click callback
-          clickLines.push("    click " + safeId + " onNodeClick");
-
-          // Edges (normal, non-root sources)
-          for (var e = 0; e < graph[i]["edges"].length; e++) {
-            var edge = graph[i]["edges"][e];
-            var targetId = edge["target"];
-            var weight = edge["hadith_list"].length;
+          } else {
             var safeTarget = "N" + targetId;
             edgeLines.push("    " + safeId + " --> |" + weight + "| " + safeTarget);
           }
@@ -534,18 +700,15 @@
       }
 
       lines.push("");
-      // Add edges
       for (var k = 0; k < edgeLines.length; k++) {
         lines.push(edgeLines[k]);
       }
 
       lines.push("");
-      // Add styles
       for (var s = 0; s < styleLines.length; s++) {
         lines.push(styleLines[s]);
       }
 
-      // Add click callbacks
       lines.push("");
       for (var c = 0; c < clickLines.length; c++) {
         lines.push(clickLines[c]);
@@ -554,10 +717,132 @@
       return lines.join("\n");
     }
 
+    function renderMatnTextWithHighlights(text, peculiarities, color) {
+      if (!text) return "";
+      if (!peculiarities || !peculiarities.length) return escapeHtml(text);
+
+      var tokenSet = {};
+      for (var i = 0; i < peculiarities.length; i++) {
+        tokenSet[peculiarities[i]] = true;
+      }
+
+      var words = String(text).split(/\s+/);
+      var rendered = [];
+      for (var w = 0; w < words.length; w++) {
+        var rawWord = words[w];
+        var normalized = simplifyArabic(rawWord).replace(/[^\u0600-\u06FFa-zA-Z0-9]/g, "");
+        if (normalized && tokenSet[normalized]) {
+          rendered.push('<span class="matn-token" style="border-color:' + color + ';background:' + hexToRgba(color, 0.25) + ';">' + escapeHtml(rawWord) + '</span>');
+        } else {
+          rendered.push(escapeHtml(rawWord));
+        }
+      }
+      return rendered.join(" ");
+    }
+
+    function renderMatnAnalysisPanel(matnAnalysis) {
+      var container = document.getElementById("matn-analysis-content");
+      if (!container) return;
+
+      if (!matnAnalysis || !matnAnalysis.collectors || !matnAnalysis.collectors.length) {
+        container.innerHTML = '<p class="analysis-empty">No matn variants found for the current result set.</p>';
+        return;
+      }
+
+      var html = [];
+      for (var c = 0; c < matnAnalysis.collectors.length; c++) {
+        var collector = matnAnalysis.collectors[c];
+        html.push('<section class="collector-analysis">');
+        html.push('<h4>' + escapeHtml(collector.id + " " + truncateWords(collector.name, 6)) + '</h4>');
+
+        for (var v = 0; v < collector.variants.length; v++) {
+          var variant = collector.variants[v];
+          html.push('<article class="matn-variant">');
+          html.push('<div class="matn-meta"><span class="matn-pill" style="border-color:' + variant.color + ';color:' + variant.color + ';">Strand ' + variant.strandLabel + '</span>');
+          html.push('<span class="matn-meta-count">' + variant.hadithCount + ' hadith</span></div>');
+
+          if (variant.peculiarities && variant.peculiarities.length) {
+            html.push('<div class="peculiarities">');
+            for (var p = 0; p < variant.peculiarities.length; p++) {
+              html.push('<span class="pec-chip" style="border-color:' + variant.color + ';color:' + variant.color + ';">' + escapeHtml(variant.peculiarities[p]) + '</span>');
+            }
+            html.push('</div>');
+          }
+
+          html.push('<p class="matn-text" dir="rtl">' + renderMatnTextWithHighlights(variant.text, variant.peculiarities, variant.color) + '</p>');
+          html.push('</article>');
+        }
+
+        html.push('</section>');
+      }
+
+      container.innerHTML = html.join("");
+    }
+
+    function applyMermaidPanZoomTransform() {
+      if (!mermaidViewportState || !mermaidViewportState.viewportGroup) return;
+      var transform = "translate(" + mermaidViewportState.x + " " + mermaidViewportState.y + ") scale(" + mermaidViewportState.scale + ")";
+      mermaidViewportState.viewportGroup.setAttribute("transform", transform);
+    }
+
+    function enableMermaidPanZoom() {
+      var container = document.getElementById("mermaid-output");
+      var svg = container ? container.querySelector("svg") : null;
+      if (!svg) return;
+
+      var viewportGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      while (svg.firstChild) {
+        viewportGroup.appendChild(svg.firstChild);
+      }
+      svg.appendChild(viewportGroup);
+
+      mermaidViewportState = {
+        svg: svg,
+        viewportGroup: viewportGroup,
+        scale: 1,
+        x: 0,
+        y: 0,
+        panning: false,
+        startX: 0,
+        startY: 0
+      };
+      applyMermaidPanZoomTransform();
+      svg.style.cursor = "grab";
+
+      svg.addEventListener("wheel", function (evt) {
+        evt.preventDefault();
+        var delta = evt.deltaY < 0 ? 0.12 : -0.12;
+        mermaidViewportState.scale = Math.max(0.3, Math.min(3.5, mermaidViewportState.scale + delta));
+        applyMermaidPanZoomTransform();
+      }, { passive: false });
+
+      svg.addEventListener("mousedown", function (evt) {
+        if (evt.button !== 0) return;
+        if (evt.target && evt.target.closest && evt.target.closest(".node")) return;
+        mermaidViewportState.panning = true;
+        mermaidViewportState.startX = evt.clientX - mermaidViewportState.x;
+        mermaidViewportState.startY = evt.clientY - mermaidViewportState.y;
+        svg.style.cursor = "grabbing";
+      });
+
+      window.onmousemove = function (evt) {
+        if (!mermaidViewportState || !mermaidViewportState.panning) return;
+        mermaidViewportState.x = evt.clientX - mermaidViewportState.startX;
+        mermaidViewportState.y = evt.clientY - mermaidViewportState.startY;
+        applyMermaidPanZoomTransform();
+      };
+
+      window.onmouseup = function () {
+        if (!mermaidViewportState) return;
+        mermaidViewportState.panning = false;
+        mermaidViewportState.svg.style.cursor = "grab";
+      };
+    }
+
     // Global callback for mermaid node clicks
     window.onNodeClick = function(nodeId) {
       // Extract narrator ID from the node ID (remove "N" prefix and "_N" duplicate suffix)
-      var narratorId = nodeId.replace("N", "").replace(/_\d+$/, "");
+      var narratorId = nodeId.replace("N", "").replace(/_.+$/, "");
       var narrator = lookupNarrator(narratorId);
       var gradeTooltipEl = document.querySelector("#gradeTooltip");
       gradeTooltipEl.style.setProperty("visibility", "visible");
@@ -580,12 +865,14 @@
     async function renderMermaidFromCode(code) {
       var container = document.getElementById("mermaid-output");
       container.innerHTML = '';
+      mermaidViewportState = null;
       mermaidRenderCounter++;
       var id = 'mermaid-diagram-' + mermaidRenderCounter;
 
       try {
         var result = await mermaid.render(id, code);
         container.innerHTML = result.svg;
+        enableMermaidPanZoom();
       } catch (err) {
         container.innerHTML = '<div style="color:var(--danger);padding:20px;font-family:var(--font-mono);font-size:13px;">Mermaid rendering error:<br>' + err.message + '</div>';
         console.error("Mermaid render error:", err);
@@ -653,21 +940,21 @@
           padding: 15
         },
         themeVariables: isDark ? {
-          primaryColor: '#1c2333',
-          primaryTextColor: '#e8ecf4',
-          primaryBorderColor: '#2a3548',
-          lineColor: '#5c6478',
-          secondaryColor: '#161b26',
-          tertiaryColor: '#0f1219',
+          primaryColor: '#000000',
+          primaryTextColor: '#ffffff',
+          primaryBorderColor: '#ffffff',
+          lineColor: '#ffffff',
+          secondaryColor: '#000000',
+          tertiaryColor: '#000000',
           fontFamily: 'Inter, Amiri, sans-serif',
           fontSize: '13px'
         } : {
-          primaryColor: '#ffffff',
-          primaryTextColor: '#1a1e2c',
-          primaryBorderColor: '#ddd',
-          lineColor: '#888',
-          secondaryColor: '#f4f6fa',
-          tertiaryColor: '#eee',
+          primaryColor: '#000000',
+          primaryTextColor: '#ffffff',
+          primaryBorderColor: '#ffffff',
+          lineColor: '#ffffff',
+          secondaryColor: '#000000',
+          tertiaryColor: '#000000',
           fontFamily: 'Inter, Amiri, sans-serif',
           fontSize: '13px'
         }
@@ -701,21 +988,7 @@
       });
     }
 
-    function toggleTheme() {
-      var isDay = document.getElementById("DayThemeSwitch");
-      if(isDay) {
-          isDay.checked = !isDay.checked;
-          // Fire change event manually so existing logic picks it up (if any) or directly toggle class
-          var event = new Event('change');
-          isDay.dispatchEvent(event);
-      }
-      
-      document.body.classList.toggle("light-mode");
-      updateMermaidTheme();
-      if(typeof drawMermaidTree === 'function' && result_graph.length > 0) {
-          drawMermaidTree(); // re-render if tree is generated
-      }
-    }
   </script>
 </body>
 </html>
+

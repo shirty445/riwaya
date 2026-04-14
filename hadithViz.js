@@ -176,12 +176,12 @@ function prepareData() {
         var hadith_takhreeg = getTakhreegByID(takhreegData, getHadithNum(HadithArr, hadithIdx));
         var matn = hadith_takhreeg? getTakhreegIDs(hadith_takhreeg)[0]: "";
         for (var n = 0; n < sanad.length - 1; n++) {
-          var channel = colorConnectivityAssessment()? connection_status(sanad[n + 1], sanad[n])
+          var channel = colorConnectivityAssessment()? connection_status(sanad[n], sanad[n + 1])
                                                      : colorLinksByMatn()? matn
                                                                          : sanad;
-                                            
-                                                                ;
-          updateCount(edges, sanad[n + 1], sanad[n], hadithIdx, channel.toString());
+
+          // Keep chain direction as companion -> ... -> collector.
+          updateCount(edges, sanad[n], sanad[n + 1], hadithIdx, channel.toString());
         }
       }
       i++;
@@ -1849,6 +1849,15 @@ function swtichDotification(){
 
 }
 
+function xmlEscape(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function exportToDrawio() {
   if (!result_graph || result_graph.length === 0) {
     alert("Please draw the tree first.");
@@ -1857,11 +1866,8 @@ function exportToDrawio() {
 
   var xml = '<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/>';
 
-  var nodeIdMap = {};
   var ySpacing = 150;
   var xSpacing = 250;
-
-  var currentX = 0;
   var layerXs = {};
 
   for (var i = 0; i < result_graph.length; i++) {
@@ -1879,13 +1885,11 @@ function exportToDrawio() {
 
     var narrator = lookupNarrator(nid);
     var name = narrator['name'].split(" ").slice(0, 4).join(" ");
-    var label = nid + "\\n" + name;
+    var label = xmlEscape(nid + "\n" + name);
     var gradeCol = gradeToColor(getNarratorGrade(nid));
     
     var mxId = "N" + nid;
-    nodeIdMap[nid] = mxId;
-
-    var style = "rounded=1;whiteSpace=wrap;html=1;fillColor=" + gradeCol + ";fontColor=#ffffff;strokeColor=#ffffff;";
+    var style = "rounded=0;whiteSpace=wrap;html=1;fillColor=" + gradeCol + ";fontColor=#ffffff;strokeColor=#ffffff;";
     
     xml += '<mxCell id="' + mxId + '" value="' + label + '" style="' + style + '" vertex="1" parent="1"><mxGeometry x="' + x + '" y="' + y + '" width="120" height="60" as="geometry"/></mxCell>';
   }
@@ -1909,11 +1913,19 @@ function exportToDrawio() {
 
   xml += '</root></mxGraphModel>';
 
-  // Compress and encode as per draw.io format
-  // For basic support, raw XML wrapped suitably is enough
-  var finalXml = encodeURIComponent(xml);
+  // Try opening directly in draw.io via URL import. If blocked/fails, fallback to file download.
+  try {
+    var dataUrl = "data:text/xml;charset=utf-8," + encodeURIComponent(xml);
+    var drawioUrl = "https://app.diagrams.net/?url=" + encodeURIComponent(dataUrl);
+    var opened = window.open(drawioUrl, "_blank");
+    if (opened) {
+      return;
+    }
+  } catch (err) {
+    console.warn("Could not open draw.io directly, falling back to download.", err);
+  }
 
-  var blob = new Blob([xml], { type: 'application/xml' });
+  var blob = new Blob([xml], { type: "application/xml" });
   var url = URL.createObjectURL(blob);
   var link = document.createElement("a");
   link.href = url;
