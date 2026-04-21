@@ -40,36 +40,6 @@
 
 <body id="screen">
 
-  <!-- Mobile menu button -->
-  <button class="mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Open menu">
-    <span class="fa fa-bars"></span>
-  </button>
-
-  <!-- Sidebar Icon Rail -->
-  <nav id="sidebar">
-    <div class="sidebar-brand">K</div>
-    <ul>
-      <li>
-        <a onclick="openSearch()" title="Search">
-          <span class="fa fa-search nav-icon"></span>
-          <span>Search</span>
-        </a>
-      </li>
-      <li>
-        <a onclick="openSettings()" title="Settings">
-          <span class="fa fa-sliders-h nav-icon"></span>
-          <span>Settings</span>
-        </a>
-      </li>
-      <li>
-        <a href="https://github.com/shirty445/ytrihshadith" title="About" target="_blank">
-          <span class="fa fa-info-circle nav-icon"></span>
-          <span>About</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
-
   <!-- Search Panel -->
   <form id="mySidesearch" class="sidesearch">
     <div class="panel-inner">
@@ -153,10 +123,10 @@
       <div class="form-group">
         <label><span class="lang-texten">Links Coloring</span><span class="lang-textar" style="display:none">تغيير العرض</span></label>
         <select id="sankey_view" class="form-control">
-          <option data-en="Group by Matn" data-ar="تمييز المتون بالألوان" selected>Group by Matn</option>
+          <option data-en="Group by Matn" data-ar="تمييز المتون بالألوان">Group by Matn</option>
           <option data-en="Group by Sanad" data-ar="تمييز الأسانيد بالألوان">Group by Sanad</option>
           <option data-en="Multiple Matn Alignment" data-ar="مقارنة المتون بالألوان">Multiple Matn Alignment</option>
-          <option data-en="Connectivity Assessment" data-ar="تمييز الاتصال بالألوان">Connectivity Assessment</option>
+          <option data-en="Connectivity Assessment" data-ar="تمييز الاتصال بالألوان" selected>Connectivity Assessment</option>
         </select>
       </div>
 
@@ -228,18 +198,26 @@
 
   <!-- Main Content -->
   <div class="main-content">
+    <div class="top-nav-actions" style="position: absolute; top: 32px; left: 40px; display: flex; gap: 12px; z-index: 1000; align-items: center;">
+      <img class="corner-logo" src="riwaya-logo.png" alt="Riwaya logo" />
+    </div>
+
     <div class="top-nav-actions" style="position: absolute; top: 32px; right: 40px; display: flex; gap: 12px; z-index: 1000;">
       <button id="lang-toggle" class="btn btn-secondary btn-sm" onclick="toggleLanguage()">
         <span class="lang-texten">عربي</span><span class="lang-textar" style="display:none">English</span>
       </button>
-      <a href="https://x.com/ytrihs" target="_blank" class="btn btn-primary btn-sm btn-icon" style="border-radius: 0; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background-color: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href="https://github.com/shirty445/ytrihshadith" title="GitHub" target="_blank" class="btn btn-primary btn-sm btn-icon" style="border-radius: 0; width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background-color: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);">
+        <span class="fab fa-github" aria-hidden="true"></span>
+        <span class="sr-only">GitHub</span>
+      </a>
+      <a href="https://x.com/ytrihs" title="X" target="_blank" class="btn btn-primary btn-sm" style="border-radius: 0; background-color: #000; color: #fff; border: 1px solid rgba(255, 255, 255, 0.2);">
+        @ytrihs
       </a>
     </div>
 
     <div id="header">
-      <h1 class="brand-title">RIWAYA by shirty</h1>
-      <h2 class="brand-subtitle"><em>based on KHASHAF</em></h2>
+      <h1 class="brand-title">RIWAYA</h1>
+      <h2 class="brand-subtitle">based on KHASHAF</h2>
       <h2 id="debugger"></h2>
     </div>
 
@@ -247,11 +225,19 @@
 
     <!-- Tree Diagram Container -->
     <div id="tree-container">
+      <div class="tree-top-left-controls">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="openSearch()">
+          <span class="fa fa-search"></span> <span class="lang-texten">Search</span><span class="lang-textar" style="display:none">بحث</span>
+        </button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="zoomMermaid(-1)" aria-label="Zoom out" title="Zoom out">−</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="zoomMermaid(1)" aria-label="Zoom in" title="Zoom in">+</button>
+      </div>
       <div id="floating-legend" class="floating-legend collapsed">
         <button type="button" class="floating-legend-toggle" onclick="toggleFloatingLegend()">
-          <span class="fa fa-list"></span> Narrator Grades
+          <span class="fa fa-list"></span> Legend
         </button>
         <div class="floating-legend-body">
+          <div class="legend-section-title">Narrator Grades</div>
           <ul class="legend-labels">
             <li><span style="background:#002700;" class="color-circle"></span>Sahabi (Companion)</li>
             <li><span style="background:#005800;" class="color-circle"></span>Thiqah Thiqah (Highly Trustworthy)</li>
@@ -263,6 +249,14 @@
             <li><span style="background:#de425b;" class="color-circle"></span>Munkar / Matruk</li>
             <li><span style="background:#a20025;" class="color-circle"></span>Kadhdhab (Liar)</li>
             <li><span style="background:silver;" class="color-circle"></span>Majhul / Mastur</li>
+          </ul>
+
+          <div class="legend-section-title">Chain Connectivity (Link Colors)</div>
+          <ul class="legend-labels">
+            <li><span style="background:#004c6d;" class="color-circle"></span>Connected (Time + Place)</li>
+            <li><span style="background:#00aba9;" class="color-circle"></span>Time overlap only</li>
+            <li><span style="background:silver;" class="color-circle"></span>Place overlap only</li>
+            <li><span style="background:#d80073;" class="color-circle"></span>Disconnected (No overlap)</li>
           </ul>
         </div>
       </div>
@@ -361,7 +355,9 @@
     }
 
     function toggleMobileSidebar() {
-      document.getElementById("sidebar").classList.toggle("mobile-open");
+      var sidebar = document.getElementById("sidebar");
+      if (!sidebar) return;
+      sidebar.classList.toggle("mobile-open");
     }
 
     function toggleFloatingLegend() {
@@ -637,9 +633,25 @@
 
       var edgeLines = [];
       var styleLines = [];
+      var linkStyleLines = [];
       var clickLines = [];
       var collectorSet = {};
       var collectorCopies = {};
+      var linkIndex = 0;
+      var useConnectivityColors = (typeof colorConnectivityAssessment === "function") && colorConnectivityAssessment();
+
+      function getConnectivityStroke(sourceId, targetId) {
+        if (!useConnectivityColors) return null;
+        if (typeof connection_status !== "function") return null;
+        try {
+          var key = connection_status(String(sourceId), String(targetId)).toString();
+          if (key === "true,true") return "#004c6d";
+          if (key === "true,false") return "#00aba9";
+          if (key === "false,true") return "silver";
+          if (key === "false,false") return "#d80073";
+        } catch (e) {}
+        return null;
+      }
 
       for (var i = 0; i < graph.length; i++) {
         if (!graph[i]["edges"] || graph[i]["edges"].length === 0) {
@@ -691,10 +703,20 @@
 
               var collectorEdgeLabel = strandLabel ? (strandLabel + " / " + strandCount) : String(strandCount);
               edgeLines.push("    " + safeId + " --> |" + collectorEdgeLabel + "| " + collectorNodeId);
+              var collectorStroke = getConnectivityStroke(nodeId, targetId);
+              if (collectorStroke) {
+                linkStyleLines.push("    linkStyle " + linkIndex + " stroke:" + collectorStroke + ",stroke-width:2px");
+              }
+              linkIndex++;
             }
           } else {
             var safeTarget = "N" + targetId;
             edgeLines.push("    " + safeId + " --> |" + weight + "| " + safeTarget);
+            var stroke = getConnectivityStroke(nodeId, targetId);
+            if (stroke) {
+              linkStyleLines.push("    linkStyle " + linkIndex + " stroke:" + stroke + ",stroke-width:2px");
+            }
+            linkIndex++;
           }
         }
       }
@@ -707,6 +729,11 @@
       lines.push("");
       for (var s = 0; s < styleLines.length; s++) {
         lines.push(styleLines[s]);
+      }
+
+      lines.push("");
+      for (var ls = 0; ls < linkStyleLines.length; ls++) {
+        lines.push(linkStyleLines[ls]);
       }
 
       lines.push("");
@@ -785,6 +812,13 @@
       mermaidViewportState.viewportGroup.setAttribute("transform", transform);
     }
 
+    function zoomMermaid(direction) {
+      if (!mermaidViewportState) return;
+      var delta = direction > 0 ? 0.18 : -0.18;
+      mermaidViewportState.scale = Math.max(0.3, Math.min(3.5, mermaidViewportState.scale + delta));
+      applyMermaidPanZoomTransform();
+    }
+
     function enableMermaidPanZoom() {
       var container = document.getElementById("mermaid-output");
       var svg = container ? container.querySelector("svg") : null;
@@ -795,6 +829,22 @@
         viewportGroup.appendChild(svg.firstChild);
       }
       svg.appendChild(viewportGroup);
+
+      // Fit the SVG viewBox to the visible flowchart content, not the full wrapper,
+      // so the graph area lines up with the resized outline.
+      try {
+        var bbox = getMermaidContentBBox(viewportGroup);
+        if (bbox && isFinite(bbox.width) && isFinite(bbox.height) && bbox.width > 0 && bbox.height > 0) {
+          var pad = 28;
+          var x = bbox.x - pad;
+          var y = bbox.y - pad;
+          var w = bbox.width + pad * 2;
+          var h = bbox.height + pad * 2;
+          svg.setAttribute("viewBox", x + " " + y + " " + w + " " + h);
+        }
+      } catch (e) {}
+
+      makeMermaidSvgResponsive(svg);
 
       mermaidViewportState = {
         svg: svg,
@@ -839,6 +889,64 @@
       };
     }
 
+    function getMermaidContentBBox(root) {
+      if (!root || !root.querySelectorAll) {
+        try {
+          return root && root.getBBox ? root.getBBox() : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      var selectors = [
+        ".nodes",
+        ".edgePaths",
+        ".edgeLabels",
+        ".clusters",
+        ".clusterLabels"
+      ];
+      var boxes = [];
+
+      for (var s = 0; s < selectors.length; s++) {
+        var matches = root.querySelectorAll(selectors[s]);
+        for (var i = 0; i < matches.length; i++) {
+          try {
+            var box = matches[i].getBBox();
+            if (box && isFinite(box.width) && isFinite(box.height) && (box.width > 0 || box.height > 0)) {
+              boxes.push(box);
+            }
+          } catch (e) {}
+        }
+      }
+
+      if (!boxes.length) {
+        try {
+          return root.getBBox();
+        } catch (e) {
+          return null;
+        }
+      }
+
+      var minX = boxes[0].x;
+      var minY = boxes[0].y;
+      var maxX = boxes[0].x + boxes[0].width;
+      var maxY = boxes[0].y + boxes[0].height;
+
+      for (var b = 1; b < boxes.length; b++) {
+        minX = Math.min(minX, boxes[b].x);
+        minY = Math.min(minY, boxes[b].y);
+        maxX = Math.max(maxX, boxes[b].x + boxes[b].width);
+        maxY = Math.max(maxY, boxes[b].y + boxes[b].height);
+      }
+
+      return {
+        x: minX,
+        y: minY,
+        width: maxX - minX,
+        height: maxY - minY
+      };
+    }
+
     // Global callback for mermaid node clicks
     window.onNodeClick = function(nodeId) {
       // Extract narrator ID from the node ID (remove "N" prefix and "_N" duplicate suffix)
@@ -872,11 +980,74 @@
       try {
         var result = await mermaid.render(id, code);
         container.innerHTML = result.svg;
+        var svg = container.querySelector("svg");
+        makeMermaidSvgResponsive(svg);
         enableMermaidPanZoom();
+        setupMermaidResizeObserver();
+        syncMermaidSvgToContainer();
       } catch (err) {
         container.innerHTML = '<div style="color:var(--danger);padding:20px;font-family:var(--font-mono);font-size:13px;">Mermaid rendering error:<br>' + err.message + '</div>';
         console.error("Mermaid render error:", err);
       }
+    }
+
+    var mermaidResizeObserver = null;
+
+    function setupMermaidResizeObserver() {
+      if (typeof ResizeObserver === "undefined") return;
+      if (mermaidResizeObserver) return;
+
+      mermaidResizeObserver = new ResizeObserver(function () {
+        syncMermaidSvgToContainer();
+      });
+
+      var tree = document.getElementById("tree-container");
+      var out = document.getElementById("mermaid-output");
+      if (tree) mermaidResizeObserver.observe(tree);
+      if (out) mermaidResizeObserver.observe(out);
+    }
+
+    function syncMermaidSvgToContainer() {
+      if (!mermaidViewportState || !mermaidViewportState.svg) return;
+      var out = document.getElementById("mermaid-output");
+      if (!out) return;
+
+      // Keep the SVG viewport matched to the resized box, while preserving
+      // the diagram's proportions inside that viewport.
+      var h = out.clientHeight;
+      var w = out.clientWidth;
+      if (!h || h < 10 || !w || w < 10) return;
+
+      var svg = mermaidViewportState.svg;
+      svg.style.setProperty("width", w + "px", "important");
+      svg.style.setProperty("height", h + "px", "important");
+      svg.style.setProperty("min-width", "0", "important");
+      svg.style.setProperty("min-height", "0", "important");
+      svg.style.setProperty("max-height", "100%", "important");
+      svg.style.setProperty("max-width", "100%", "important");
+    }
+
+    function makeMermaidSvgResponsive(svg) {
+      if (!svg) return;
+
+      // Ensure a viewBox so CSS scaling works reliably.
+      var vb = svg.getAttribute("viewBox");
+      if (!vb) {
+        var w = parseFloat(svg.getAttribute("width"));
+        var h = parseFloat(svg.getAttribute("height"));
+        if (isFinite(w) && isFinite(h) && w > 0 && h > 0) {
+          svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+        }
+      }
+
+      svg.removeAttribute("width");
+      svg.removeAttribute("height");
+      svg.setAttribute("preserveAspectRatio", "xMidYMin meet");
+      svg.style.width = "100%";
+      svg.style.height = "100%";
+      svg.style.maxWidth = "100%";
+      svg.style.maxHeight = "100%";
+      svg.style.display = "block";
     }
 
     // ---- Code export functions ----
@@ -991,4 +1162,3 @@
   </script>
 </body>
 </html>
-

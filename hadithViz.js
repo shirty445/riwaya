@@ -23,7 +23,6 @@ var align_reward = 4 , align_mispen = 2, align_gappen = 1, align_skwpen = 1;
 /*-------------- Main Code -------------*/
 window.onload = function () {
   document.getElementById("submit").click();
-  openSearch();
 };
 
 //1. Retrieval Process
@@ -1913,23 +1912,130 @@ function exportToDrawio() {
 
   xml += '</root></mxGraphModel>';
 
-  // Try opening directly in draw.io via URL import. If blocked/fails, fallback to file download.
   try {
-    var dataUrl = "data:text/xml;charset=utf-8," + encodeURIComponent(xml);
-    var drawioUrl = "https://app.diagrams.net/?url=" + encodeURIComponent(dataUrl);
-    var opened = window.open(drawioUrl, "_blank");
-    if (opened) {
+    // Open a popup synchronously to avoid popup blockers, then navigate it.
+    var drawioWin = window.open("about:blank", "_blank");
+
+    if (drawioWin) {
+      var uint8ToBase64 = function (bytes) {
+        var chunkSize = 0x8000;
+        var binary = "";
+        for (var i = 0; i < bytes.length; i += chunkSize) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+        }
+        return btoa(binary);
+      };
+
+      var deflateRawBase64 = function (input) {
+        return new Promise(function (resolve, reject) {
+          if (typeof CompressionStream === "undefined" || typeof TextEncoder === "undefined") {
+            reject(new Error("CompressionStream not supported"));
+            return;
+          }
+
+          var cs;
+          try {
+            cs = new CompressionStream("deflate-raw");
+          } catch (e) {
+            reject(e);
+            return;
+          }
+
+          try {
+            var encoder = new TextEncoder();
+            var inputBytes = encoder.encode(input);
+            var stream = new Blob([inputBytes]).stream().pipeThrough(cs);
+            new Response(stream)
+              .arrayBuffer()
+              .then(function (ab) {
+                resolve(uint8ToBase64(new Uint8Array(ab)));
+              })
+              .catch(reject);
+          } catch (e) {
+            reject(e);
+          }
+        });
+      };
+
+      var openInEmbedMode = function () {
+        var receive = function (evt) {
+          if (evt.source !== drawioWin) return;
+          if (evt.origin !== "https://embed.diagrams.net") return;
+
+          var msg = evt.data;
+          if (typeof msg === "string") {
+            try {
+              msg = JSON.parse(msg);
+            } catch (e) {
+              return;
+            }
+          }
+
+          if (!msg || typeof msg !== "object") return;
+
+          if (msg.event === "init") {
+            var loadMsg = { action: "load", xml: xml, title: "hadith-isnad-tree" };
+            drawioWin.postMessage(JSON.stringify(loadMsg), "https://embed.diagrams.net");
+          } else if (msg.event === "save") {
+            var outXml = msg.xml || xml;
+            var blob = new Blob([outXml], { type: "application/xml" });
+            var url = URL.createObjectURL(blob);
+            var link = document.createElement("a");
+            link.href = url;
+            link.download = "hadith-isnad-tree.drawio";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+
+            if (msg.exit) {
+              window.removeEventListener("message", receive);
+              try {
+                drawioWin.close();
+              } catch (e) {}
+            }
+          } else if (msg.event === "exit") {
+            window.removeEventListener("message", receive);
+          }
+        };
+
+        window.addEventListener("message", receive);
+        drawioWin.location = "https://embed.diagrams.net/?embed=1&proto=json&spin=1&libraries=1&saveAndExit=1";
+      };
+
+      // Prefer opening the full editor via the official #create URL (no "file not found" proxy).
+      // If compression isn't supported, fall back to embed mode + postMessage.
+      var encoded = encodeURIComponent(xml);
+      deflateRawBase64(encoded)
+        .then(function (base64) {
+          var createObj = { type: "xml", compressed: true, data: base64 };
+          var url =
+            "https://app.diagrams.net/?pv=0&grid=0#create=" +
+            encodeURIComponent(JSON.stringify(createObj));
+
+          // Guard against browser URL limits; if too large, use embed mode instead.
+          if (url.length > 1500000) {
+            openInEmbedMode();
+            return;
+          }
+
+          drawioWin.location = url;
+        })
+        .catch(function () {
+          openInEmbedMode();
+        });
+
       return;
     }
   } catch (err) {
-    console.warn("Could not open draw.io directly, falling back to download.", err);
+    console.warn("Could not open draw.io, falling back to download.", err);
   }
 
   var blob = new Blob([xml], { type: "application/xml" });
   var url = URL.createObjectURL(blob);
   var link = document.createElement("a");
   link.href = url;
-  link.download = "hadith-isnad-tree.drawio.xml";
+  link.download = "hadith-isnad-tree.drawio";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

@@ -136,11 +136,19 @@ a:hover {
 }
 
 #sidebar .sidebar-brand {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 40px;
-  letter-spacing: 1px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 34px;
+}
+
+#sidebar .sidebar-logo {
+  width: 36px;
+  height: auto;
+  display: block;
+  filter: invert(1);
+  border-radius: 10px;
 }
 
 #sidebar ul {
@@ -222,7 +230,7 @@ a:hover {
 .sidesearch {
   position: fixed;
   top: 0;
-  left: var(--sidebar-w);
+  left: 0;
   width: 0;
   height: 100vh;
   background: var(--bg-glass);
@@ -231,7 +239,7 @@ a:hover {
   border-right: 1px solid var(--border);
   overflow-x: hidden;
   overflow-y: auto;
-  z-index: 800;
+  z-index: 1200;
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0;
   color: var(--text-primary);
@@ -565,7 +573,7 @@ input:focus + .switchSlider {
 
 .main-content {
   position: relative;
-  margin-left: var(--sidebar-w);
+  margin-left: 0;
   min-height: 100vh;
   padding: 32px 40px;
   transition: var(--transition);
@@ -586,6 +594,7 @@ input:focus + .switchSlider {
 #header h1 {
   font-size: 28px;
   font-weight: 700;
+  font-family: "Times New Roman", Times, serif;
   color: #ffffff;
   margin-bottom: 8px;
 }
@@ -594,7 +603,31 @@ input:focus + .switchSlider {
   font-size: 14px;
   font-weight: 400;
   color: var(--text-secondary);
-  font-family: var(--font-arabic);
+  font-family: var(--font-latin);
+}
+
+#header .brand-subtitle {
+  font-style: normal;
+}
+
+.corner-logo {
+  display: block;
+  height: 55px;
+  width: auto;
+  max-width: 38vw;
+  filter: invert(1);
+  border-radius: 10px;
+}
+
+/* Tree overlay controls */
+#tree-container .tree-top-left-controls {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 950;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 /* ---------- Legend ---------- */
@@ -770,12 +803,28 @@ input:focus + .switchSlider {
   margin: 20px 0;
   overflow: auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
   animation: fadeIn 0.5s ease-out 0.3s both;
 }
 
 #tree-container .mermaid {
   display: flex;
   justify-content: center;
+}
+
+#mermaid-output {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+#mermaid-output svg {
+  height: 100% !important;
+  width: 100% !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
 }
 
 /* Mermaid SVG theming */
@@ -961,7 +1010,7 @@ input:focus + .switchSlider {
 footer {
   text-align: center;
   padding: 20px 16px;
-  margin-left: var(--sidebar-w);
+  margin-left: 0;
   font-size: 12px;
   color: var(--text-muted);
 }
@@ -1426,6 +1475,19 @@ footer {
   max-height: 280px;
   overflow: auto;
   padding: 8px 10px;
+}
+
+.floating-legend .legend-section-title {
+  margin-top: 0;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+}
+
+.floating-legend .legend-labels + .legend-section-title {
+  margin-top: 14px;
 }
 
 .floating-legend.collapsed .floating-legend-body {
